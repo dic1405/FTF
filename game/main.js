@@ -569,12 +569,12 @@ function drawPopups() {
 function drawCardBox(y, h) { nine('panel_card', 20, y, W - 40, h); }
 function wrap(s, maxChars) { const words = s.split(' '), lines = []; let cur = ''; for (const w of words) { if ((cur + ' ' + w).trim().length > maxChars) { lines.push(cur.trim()); cur = w; } else cur += ' ' + w; } if (cur.trim()) lines.push(cur.trim()); return lines; }
 function drawIntro() {
-  const L = G.level, lines = wrap(L.intro, 46), LH = 11;
+  const L = G.level, lines = wrap(L.intro, 32), LH = 14;
   const h = 70 + lines.length * LH + 44; drawCardBox(110, h);
   text(L.title, W / 2, 120, '#3B2F2F', { align: 'c', scale: 2 });
   text(`${L.fish.length} FISH  ${L.slots} SLOTS  ${L.turnLimit} TURNS`, W / 2, 136, '#7A4E2C', { align: 'c' });
   text(`${'★★'} ${L.parTurns} TURNS   ${'★★★'} ${L.parFood} FOOD`, W / 2, 146, '#7A4E2C', { align: 'c' });
-  lines.forEach((l, i) => text(l, W / 2, 162 + i * LH, '#3B2F2F', { align: 'c' }));
+  lines.forEach((l, i) => text(l, W / 2, 162 + i * LH, '#3B2F2F', { align: 'c', scale: 1.5 }));
   const by = 110 + h - 44; spr(A.ui, G.pressed === 'go' ? 'btn_feed_pressed' : 'btn_feed', 80, by); text('START', W / 2, by + 12, '#1E3A2C', { align: 'c', scale: 2 });
   G.introBtn = { x: 80, y: by, w: 110, h: 34 };
 }
