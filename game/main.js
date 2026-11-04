@@ -107,6 +107,14 @@ const angDiff = (a, b) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI;
 const fishType = f => f.both ? 'catfish' : f.any.length === 2 ? 'goldfish' : 'koi';
 const sizeKey = h => h === 1 ? 's' : h === 2 ? 'm' : 'l';
 const SIZE = { s: { L: 32, W: 10 }, m: { L: 44, W: 13 }, l: { L: 56, W: 16 } };
+// swim speed (px/s at 1x) per fish type, scaled by size (small fish dart, big fish cruise); turn = ms to settle a heading change
+const SPEED = {
+  koi:      { min: 14, max: 20, turn: 700 },   // quick, long body
+  goldfish: { min: 5,  max: 8,  turn: 1200 },  // slow, drifting fan tail
+  catfish:  { min: 8,  max: 12, turn: 900 },   // steady bottom cruiser
+};
+const SIZE_SPEED = { s: 1.25, m: 1, l: 0.8 };
+function fishSpeed(type, sz) { const S = SPEED[type]; return rnd(S.min, S.max) * SIZE_SPEED[sz]; }
 const save = JSON.parse(localStorage.getItem('ftf_stars') || '{}');
 
 // ------------------------------------------------------------------ layout
@@ -161,7 +169,7 @@ function startLevel(L) {
     const zone = { x0: POND.x0 + zc * zw, y0: POND.y0 + zr * zh, x1: POND.x0 + (zc + 1) * zw, y1: POND.y0 + (zr + 1) * zh };
     const S = SIZE[sizeKey(f.hearts)];
     return { id: i, data: f, type: fishType(f), sz: sizeKey(f.hearts), L: S.L, Wd: S.W, zone, x: (zone.x0 + zone.x1) / 2 + rnd(-10, 10), y: (zone.y0 + zone.y1) / 2 + rnd(-8, 8), a: rnd(0, Math.PI * 2),
-      target: null, speed: rnd(8, 14), shown: f.fill, full: f.fill === f.hearts, anim: null, preview: null, tagDy: 0, tagDy2: 0, spin: 0, dash: { x: 0, y: 0 }, glow: 0, idle: 0 };
+      target: null, speed: fishSpeed(fishType(f), sizeKey(f.hearts)), turn: SPEED[fishType(f)].turn, shown: f.fill, full: f.fill === f.hearts, anim: null, preview: null, tagDy: 0, tagDy2: 0, spin: 0, dash: { x: 0, y: 0 }, glow: 0, idle: 0 };
   });
 }
 function fishEats(f, food) { return f.both ? f.both.includes(food) : f.any.includes(food); }
@@ -376,7 +384,7 @@ function update(now) {
     } else {
       // free wandering: drift the heading slowly, with a gentle pull back toward the pond centre
       if (!f.target || G.time > f.target.until) f.target = { a: f.a + rnd(-1.2, 1.2), until: G.time + rnd(1500, 4000) };
-      f.a += angDiff(f.a, f.target.a) * Math.min(1, dt / 900);
+      f.a += angDiff(f.a, f.target.a) * Math.min(1, dt / f.turn);
       f.x += Math.cos(f.a) * sp * dt / 1000; f.y += Math.sin(f.a) * sp * dt / 1000;
       if (f.turnAway) { f.x -= Math.cos(f.a) * 10 * dt / 1000; if (!f.anim) f.turnAway = false; }
     }
