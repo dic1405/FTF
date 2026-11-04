@@ -240,13 +240,13 @@ const BW = 110, BH = 34
 sprite("btn_feed", { w: BW, h: BH }, (c) => { c.rect(0, 0, BW, BH, "J"); c.rect(1, 1, BW - 2, BH - 2, "I"); c.rect(2, 2, BW - 4, BH - 6, "i"); c.hline(2, 2, BW - 4, "G"); c.rect(2, BH - 4, BW - 4, 2, "I"); c.px(1, 1, "J"); c.px(BW - 2, 1, "J"); c.px(1, BH - 2, "J"); c.px(BW - 2, BH - 2, "J") })
 sprite("btn_feed_pressed", { base: "btn_feed", swap: { i: "I", G: "i" } })
 sprite("btn_feed_off", { base: "btn_feed", swap: { i: "s", I: "S", J: "S", G: "z" } })
-// icon buttons 15x15 (secondary: half the size of the main controls)
-const IB = 15
-sprite("btn_base", { w: IB, h: IB }, (c) => { c.rect(1, 0, IB - 2, IB, "e"); c.rect(0, 1, IB, IB - 2, "e"); c.rect(1, 1, IB - 2, IB - 2, "s"); c.rect(2, 2, IB - 4, IB - 4, "z"); c.hline(2, 2, IB - 4, "Z"); c.hline(2, IB - 3, IB - 4, "s") })
-sprite("btn_undo", { base: "btn_base" }, (c) => { c.hline(5, 6, 5, "e"); c.px(4, 6, "e"); c.px(5, 5, "e"); c.px(5, 7, "e"); c.px(10, 7, "e"); c.px(10, 8, "e"); c.hline(7, 9, 3, "e") })
-sprite("btn_hint", { base: "btn_base" }, (c) => { c.circ(7, 6, 2, "y"); c.ring(7, 6, 3, "e"); c.rect(6, 9, 3, 1, "e"); c.rect(6, 11, 3, 1, "e"); c.px(6, 5, "Y") })
-sprite("btn_restart", { base: "btn_base" }, (c) => { c.ring(7, 7, 3, "e"); c.rect(7, 3, 4, 3, "_"); c.rect(7, 3, 4, 3, "z"); c.px(8, 4, "e"); c.px(9, 5, "e"); c.px(9, 3, "e") })
-sprite("btn_menu", { base: "btn_base" }, (c) => { c.hline(4, 4, 7, "e"); c.hline(4, 7, 7, "e"); c.hline(4, 10, 7, "e") })
+// icon buttons 20x20 (secondary controls)
+const IB = 20
+sprite("btn_base", { w: IB, h: IB }, (c) => { c.rect(1, 0, IB - 2, IB, "e"); c.rect(0, 1, IB, IB - 2, "e"); c.rect(1, 1, IB - 2, IB - 2, "s"); c.rect(2, 2, IB - 4, IB - 4, "z"); c.hline(2, 2, IB - 4, "Z"); c.rect(2, IB - 4, IB - 4, 2, "s") })
+sprite("btn_undo", { base: "btn_base" }, (c) => { c.line(6, 9, 13, 9, "e", 2); c.line(13, 9, 13, 13, "e", 2); c.line(6, 9, 9, 6, "e"); c.line(6, 9, 9, 12, "e"); c.line(13, 13, 9, 13, "e", 2) })
+sprite("btn_hint", { base: "btn_base" }, (c) => { c.circ(10, 8, 3, "y"); c.ring(10, 8, 3, "e"); c.rect(9, 12, 3, 2, "e"); c.px(10, 15, "e"); c.px(9, 7, "Y") })
+sprite("btn_restart", { base: "btn_base" }, (c) => { c.ring(10, 10, 4, "e"); c.rect(10, 5, 5, 3, "_"); c.rect(10, 5, 5, 3, "z"); c.poly([11, 4, 15, 7, 11, 10], "e") })
+sprite("btn_menu", { base: "btn_base" }, (c) => { c.hline(6, 6, 8, "e"); c.hline(6, 9, 8, "e"); c.hline(6, 12, 8, "e") })
 // stars 12x12
 sprite("star_full", { w: 10, h: 10, outline: "e" }, (c) => c.poly([5, 0, 6, 3, 9, 3, 7, 5, 8, 9, 5, 7, 2, 9, 3, 5, 1, 3, 4, 3], "y"), (c) => { c.px(4, 3, "Y") })
 sprite("star_empty", { base: "star_full", swap: { y: "S", Y: "s" } })

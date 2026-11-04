@@ -123,7 +123,7 @@ const save = JSON.parse(localStorage.getItem('ftf_stars') || '{}');
 // ------------------------------------------------------------------ layout
 const POND = { x0: 22, y0: 40, x1: 248, y1: 352 };
 const SLOT = 33, SLOT_Y = 376, SLOT_X0 = 8, SLOT_DX = 37, CARD = 40, CARD_DX = 43, CARD_Y = 426, ICON = 1.5, BTN_FEED = { x: 158, y: 375, w: 110, h: 34 };
-const BTNS = { menu: { x: 4, y: 4 }, restart: { x: 22, y: 4 }, undo: { x: 233, y: 4 }, hint: { x: 251, y: 4 } };
+const BTNS = { menu: { x: 4, y: 4 }, restart: { x: 27, y: 4 }, undo: { x: 223, y: 4 }, hint: { x: 246, y: 4 } };
 function cardX(n, i) { const w = n * CARD_DX - 3; return Math.round((W - w) / 2) + i * CARD_DX; }
 function slotPos(i) { return { x: SLOT_X0 + i * SLOT_DX, y: SLOT_Y }; }
 
@@ -623,7 +623,7 @@ function drawMenu() {
 // ------------------------------------------------------------------ input
 function pt(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale }; }
 const inBox = (p, b) => p.x >= b.x && p.x < b.x + b.w && p.y >= b.y && p.y < b.y + b.h;
-function hitBtn(p) { for (const [k, b] of Object.entries(BTNS)) if (inBox(p, { x: b.x - 3, y: b.y - 3, w: 21, h: 21 })) return k; return null; }
+function hitBtn(p) { for (const [k, b] of Object.entries(BTNS)) if (inBox(p, { x: b.x - 3, y: b.y - 3, w: 26, h: 26 })) return k; return null; }
 function hitCard(p) { const L = G.level; for (let i = 0; i < L.items.length; i++) if (inBox(p, { x: cardX(L.items.length, i), y: CARD_Y, w: CARD, h: CARD })) return i; return -1; }
 function hitFish(p) { let best = null, bd = 1e9; for (const f of G.fish) { const d = Math.hypot(p.x - f.x, p.y - f.y); if (d < f.L / 2 + 6 && d < bd) { bd = d; best = f; } } return best; }
 function hitSlot(p) { for (let i = 0; i < G.level.slots; i++) { const s = slotPos(i); if (Math.hypot(p.x - (s.x + SLOT / 2), p.y - (s.y + SLOT / 2)) < 22) return i; } return -1; }
