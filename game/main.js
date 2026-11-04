@@ -7,14 +7,21 @@ const THEME = THEMES[window.THEME] || THEMES.fish;
 const W = 270, H = 480, POND_H = 370, TS = 16;
 const cv = document.getElementById('game'), ctx = cv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
-// the backing store is 2x the logical size, so 1.5x UI sprites still land on whole device pixels
-const BK = 2;
+// Render at the device's native resolution: the backing store is a whole number of DEVICE pixels per logical
+// pixel (so every sprite pixel is a crisp square), and the CSS size is that divided by devicePixelRatio.
+let BK = 2;      // device px per logical px
 let scale = 1;   // css px per logical px
 function fit() {
-  // fill the screen: whole-number scale on big screens (crisp pixels), fractional on phones so the game fills the viewport
-  const raw = Math.min(innerWidth / W, innerHeight / H);
-  scale = raw >= 2 ? Math.floor(raw) : raw;
+  const dpr = window.devicePixelRatio || 1;
+  const raw = Math.min(innerWidth * dpr / W, innerHeight * dpr / H);
+  // whole device pixels per logical pixel when that still fills most of the screen; otherwise use the exact
+  // fractional ratio so the game fills the phone (pixels stay sharp, just not all the same size)
+  BK = Math.floor(raw);
+  if (BK < 1 || BK / raw < 0.85) BK = raw;
+  cv.width = Math.round(W * BK); cv.height = Math.round(H * BK);
+  scale = BK / dpr;
   cv.style.width = W * scale + 'px'; cv.style.height = H * scale + 'px';
+  ctx.imageSmoothingEnabled = false;
 }
 addEventListener('resize', fit); fit();
 
