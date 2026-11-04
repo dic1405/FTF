@@ -5,7 +5,9 @@ import { initPond, feed, isWin, wastedSlots, solveFrom, stars as starsFor } from
 const W = 270, H = 480, POND_H = 370, TS = 16;
 const cv = document.getElementById('game'), ctx = cv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
-let scale = 1;
+// the backing store is 2x the logical size, so 1.5x UI sprites still land on whole device pixels
+const BK = 2;
+let scale = 1;   // css px per logical px
 function fit() {
   scale = Math.max(1, Math.floor(Math.min(innerWidth / W, innerHeight / H)));
   cv.style.width = W * scale + 'px'; cv.style.height = H * scale + 'px';
@@ -37,16 +39,17 @@ async function loadAll() {
 function spr(atlas, name, x, y, o = {}) {
   const f = typeof name === 'string' ? atlas.frames[name] : name;
   if (!f) return;
-  const ox = o.cx ? -Math.floor(f.w / 2) : 0, oy = o.cx ? -Math.floor(f.h / 2) : 0;
+  const sc = o.scale || 1, dw = f.w * sc, dh = f.h * sc;
+  const ox = o.cx ? -Math.floor(dw / 2) : 0, oy = o.cx ? -Math.floor(dh / 2) : 0;
   if (o.rot || o.alpha != null || o.flip) {
     ctx.save();
     ctx.translate(Math.round(x), Math.round(y));
     if (o.rot) ctx.rotate(o.rot);
     if (o.flip) ctx.scale(-1, 1);
     if (o.alpha != null) ctx.globalAlpha = o.alpha;
-    ctx.drawImage(atlas.img, f.x, f.y, f.w, f.h, ox, oy, f.w, f.h);
+    ctx.drawImage(atlas.img, f.x, f.y, f.w, f.h, ox, oy, dw, dh);
     ctx.restore();
-  } else ctx.drawImage(atlas.img, f.x, f.y, f.w, f.h, Math.round(x) + ox, Math.round(y) + oy, f.w, f.h);
+  } else ctx.drawImage(atlas.img, f.x, f.y, f.w, f.h, Math.round(x) + ox, Math.round(y) + oy, dw, dh);
 }
 function nine(name, x, y, w, h) {
   const f = A.ui.frames[name], c = 8, im = A.ui.img;
@@ -119,9 +122,9 @@ const save = JSON.parse(localStorage.getItem('ftf_stars') || '{}');
 
 // ------------------------------------------------------------------ layout
 const POND = { x0: 22, y0: 40, x1: 248, y1: 352 };
-const SLOT_Y = 379, SLOT_X0 = 14, SLOT_DX = 26, CARD_Y = 416, BTN_FEED = { x: 87, y: 450, w: 96, h: 24 };
-const BTNS = { menu: { x: 4, y: 4 }, restart: { x: 26, y: 4 }, undo: { x: 226, y: 4 }, hint: { x: 248, y: 4 } };
-function cardX(n, i) { const dx = 32, w = n * dx - 4; return Math.round((W - w) / 2) + i * dx; }
+const SLOT = 33, SLOT_Y = 376, SLOT_X0 = 8, SLOT_DX = 37, CARD = 40, CARD_DX = 43, CARD_Y = 426, ICON = 1.5, BTN_FEED = { x: 158, y: 375, w: 110, h: 34 };
+const BTNS = { menu: { x: 3, y: 3 }, restart: { x: 36, y: 3 }, undo: { x: 204, y: 3 }, hint: { x: 237, y: 3 } };
+function cardX(n, i) { const w = n * CARD_DX - 3; return Math.round((W - w) / 2) + i * CARD_DX; }
 function slotPos(i) { return { x: SLOT_X0 + i * SLOT_DX, y: SLOT_Y }; }
 
 // pond tilemap: 17 x 23 tiles, rim all round
@@ -231,7 +234,7 @@ function doFeed() {
   const cx = (POND.x0 + POND.x1) / 2, cy = (POND.y0 + POND.y1) / 2 + 20;
   slots.forEach((idx, i) => {
     const item = L.items[idx], s = slotPos(i), ang = (i / slots.length) * Math.PI * 2 + 0.7;
-    const fl = { item, sx: s.x + 11, sy: s.y + 11, ex: cx + Math.cos(ang) * 34 + rnd(-6, 6), ey: cy + Math.sin(ang) * 26 + rnd(-6, 6), t0: i * 160, side: i % 2 ? 1 : -1 };
+    const fl = { item, sx: s.x + SLOT / 2, sy: s.y + SLOT / 2, ex: cx + Math.cos(ang) * 34 + rnd(-6, 6), ey: cy + Math.sin(ang) * 26 + rnd(-6, 6), t0: i * 160, side: i % 2 ? 1 : -1 };
     fl.land = fl.t0 + LIFT + FLY; fl.settle = fl.land + HOP1 + HOP2;
     seq.flights.push(fl);
     seq.events.push({ at: fl.land, fn: () => { spawnFx('splash', fl.ex, fl.ey); SFX.splash(); } });
@@ -404,6 +407,7 @@ function update(now) {
 
 // ------------------------------------------------------------------ draw
 function draw() {
+  ctx.setTransform(BK, 0, 0, BK, 0, 0); ctx.imageSmoothingEnabled = false;
   ctx.fillStyle = '#5FA3A8'; ctx.fillRect(0, 0, W, H);
   if (G.screen === 'menu') return drawMenu();
   drawPond();
@@ -450,7 +454,7 @@ function drawPond() {
     const p = flightPos(fl, t); if (p.done && t > fl.settle - fl.t0 + 120) continue;
     const icon = 'icon_' + fl.item.foods.join('');
     ctx.save(); ctx.globalAlpha = 0.25; ctx.fillStyle = '#1E1A1A'; ctx.beginPath(); ctx.ellipse(p.x, p.y + p.h + 3, 5, 2.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-    spr(A.food, icon, p.x, p.y, { cx: true, rot: p.rot });
+    spr(A.food, icon, p.x, p.y, { cx: true, rot: p.rot, scale: ICON });
   }
   // pieces
   for (const pc of G.pieces) {
@@ -519,37 +523,39 @@ function drawHud() {
   for (const [k, b] of Object.entries(BTNS)) { const dis = (k === 'undo' && !G.history.length); spr(A.ui, 'btn_' + k, b.x, b.y + (G.pressed === k ? 1 : 0), { alpha: dis ? 0.5 : 1 }); }
 }
 function drawFeedBar() {
-  const L = G.level;
-  nine('panel_stone', 6, 372, L.slots * SLOT_DX + 10, 36);
+  const L = G.level, plateW = L.slots * SLOT_DX + 4;
+  nine('panel_stone', 4, 371, plateW, 44);
   const wasted = (!G.seq && G.slots.length) ? wastedSlots(L, G.pond, previewSlots()) : [];
   for (let i = 0; i < L.slots; i++) {
     const p = slotPos(i), idx = previewSlots()[i], item = idx == null ? null : L.items[idx];
     const name = G.drag && G.hover === i ? 'slot_hover' : wasted.includes(i) ? 'slot_wasted' : item ? 'slot_filled' : 'slot_empty';
     spr(A.ui, name, p.x, p.y);
-    if (item) spr(A.food, 'icon_' + item.foods.join(''), p.x + 5, p.y + 5, { alpha: wasted.includes(i) ? 0.5 : 1 });
+    if (item) spr(A.food, 'icon_' + item.foods.join(''), p.x + 7, p.y + 7, { scale: ICON, alpha: wasted.includes(i) ? 0.5 : 1 });
   }
-  if (wasted.length) text('NO ONE NEW EATS THIS', 8, 401, '#FFD2D8', { shadow: '#1E1A1A' });
-  const left = L.turnLimit - G.turnsUsed, lastTurn = left === 1 && !G.result;
-  nine(lastTurn && Math.floor(G.time / 400) % 2 ? 'panel_red' : 'panel_stone', 150, 372, 114, 36);
-  text(`${left} TURN${left === 1 ? '' : 'S'}`, 207, 380, lastTurn ? '#FFD2D8' : '#FFF4E0', { align: 'c', scale: 2, shadow: '#1E1A1A' });
-  text(`${'★★'} PAR ${L.parTurns}`, 207, 397, '#D9CDB5', { align: 'c' });
+  if (wasted.length) text('NO ONE NEW EATS THIS', 6, 410, '#FFD2D8', { shadow: '#1E1A1A' });
+  // compact turn indicator between the plate and the Feed button
+  const left = L.turnLimit - G.turnsUsed, lastTurn = left === 1 && !G.result, tx = 4 + plateW + 4, tw = BTN_FEED.x - 4 - tx;
+  nine(lastTurn && Math.floor(G.time / 400) % 2 ? 'panel_red' : 'panel_stone', tx, 371, tw, 44);
+  text(String(left), tx + tw / 2, 378, lastTurn ? '#FFD2D8' : '#FFF4E0', { align: 'c', scale: 3, shadow: '#1E1A1A' });
+  text(left === 1 ? 'TURN' : 'TURNS', tx + tw / 2, 398, '#D9CDB5', { align: 'c' });
+  text(`${'★★'}${L.parTurns}`, tx + tw / 2, 406, '#D9CDB5', { align: 'c' });
+  const can = G.slots.length && !G.seq && !G.result;
+  spr(A.ui, !can ? 'btn_feed_off' : G.pressed === 'feed' ? 'btn_feed_pressed' : 'btn_feed', BTN_FEED.x, BTN_FEED.y);
+  text('FEED', BTN_FEED.x + BTN_FEED.w / 2, BTN_FEED.y + 10, can ? '#1E3A2C' : '#5E5E58', { align: 'c', scale: 3 });
 }
 function drawPanel() {
   const L = G.level;
-  nine('panel_wood', 0, 410, W, 70);
+  nine('panel_wood', 0, 416, W, 64);
   L.items.forEach((item, i) => {
     const x = cardX(L.items.length, i), pressed = G.card === i;
     spr(A.ui, pressed ? 'card_pressed' : 'card', x, CARD_Y);
-    if (!(G.drag && G.drag.card === i && G.drag.moved)) spr(A.food, 'icon_' + item.foods.join(''), x + 8, CARD_Y + 8 + (pressed ? 1 : 0));
+    if (!(G.drag && G.drag.card === i && G.drag.moved)) spr(A.food, 'icon_' + item.foods.join(''), x + 11, CARD_Y + 11 + (pressed ? 1 : 0), { scale: ICON });
   });
-  const can = G.slots.length && !G.seq && !G.result;
-  spr(A.ui, !can ? 'btn_feed_off' : G.pressed === 'feed' ? 'btn_feed_pressed' : 'btn_feed', BTN_FEED.x, BTN_FEED.y);
-  text('FEED', BTN_FEED.x + 48, BTN_FEED.y + 7, can ? '#1E3A2C' : '#5E5E58', { align: 'c', scale: 2 });
 }
 function drawDrag() {
   if (!G.drag || !G.drag.moved) return;
-  ctx.save(); ctx.globalAlpha = 0.3; ctx.fillStyle = '#1E1A1A'; ctx.beginPath(); ctx.ellipse(G.drag.x, G.drag.y + 8, 6, 3, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-  spr(A.food, 'icon_' + G.drag.item.foods.join(''), G.drag.x, G.drag.y - 4, { cx: true });
+  ctx.save(); ctx.globalAlpha = 0.3; ctx.fillStyle = '#1E1A1A'; ctx.beginPath(); ctx.ellipse(G.drag.x, G.drag.y + 10, 8, 4, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+  spr(A.food, 'icon_' + G.drag.item.foods.join(''), G.drag.x, G.drag.y - 6, { cx: true, scale: ICON });
 }
 function drawPopups() {
   for (const p of G.popups) {
@@ -569,8 +575,8 @@ function drawIntro() {
   text(`${L.fish.length} FISH  ${L.slots} SLOTS  ${L.turnLimit} TURNS`, W / 2, 136, '#7A4E2C', { align: 'c' });
   text(`${'★★'} ${L.parTurns} TURNS   ${'★★★'} ${L.parFood} FOOD`, W / 2, 146, '#7A4E2C', { align: 'c' });
   lines.forEach((l, i) => text(l, W / 2, 160 + i * 7, '#3B2F2F', { align: 'c' }));
-  const by = 110 + h - 34; spr(A.ui, G.pressed === 'go' ? 'btn_feed_pressed' : 'btn_feed', 87, by); text('START', W / 2, by + 7, '#1E3A2C', { align: 'c', scale: 2 });
-  G.introBtn = { x: 87, y: by, w: 96, h: 24 };
+  const by = 110 + h - 44; spr(A.ui, G.pressed === 'go' ? 'btn_feed_pressed' : 'btn_feed', 80, by); text('START', W / 2, by + 12, '#1E3A2C', { align: 'c', scale: 2 });
+  G.introBtn = { x: 80, y: by, w: 110, h: 34 };
 }
 function drawResult() {
   const r = G.result, u = clamp((G.time - G.resultT) / 400, 0, 1), L = G.level;
@@ -617,10 +623,10 @@ function drawMenu() {
 // ------------------------------------------------------------------ input
 function pt(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale }; }
 const inBox = (p, b) => p.x >= b.x && p.x < b.x + b.w && p.y >= b.y && p.y < b.y + b.h;
-function hitBtn(p) { for (const [k, b] of Object.entries(BTNS)) if (inBox(p, { x: b.x - 4, y: b.y - 4, w: 28, h: 28 })) return k; return null; }
-function hitCard(p) { const L = G.level; for (let i = 0; i < L.items.length; i++) if (inBox(p, { x: cardX(L.items.length, i), y: CARD_Y, w: 28, h: 28 })) return i; return -1; }
+function hitBtn(p) { for (const [k, b] of Object.entries(BTNS)) if (inBox(p, { x: b.x - 2, y: b.y - 2, w: 34, h: 34 })) return k; return null; }
+function hitCard(p) { const L = G.level; for (let i = 0; i < L.items.length; i++) if (inBox(p, { x: cardX(L.items.length, i), y: CARD_Y, w: CARD, h: CARD })) return i; return -1; }
 function hitFish(p) { let best = null, bd = 1e9; for (const f of G.fish) { const d = Math.hypot(p.x - f.x, p.y - f.y); if (d < f.L / 2 + 6 && d < bd) { bd = d; best = f; } } return best; }
-function hitSlot(p) { for (let i = 0; i < G.level.slots; i++) { const s = slotPos(i); if (Math.hypot(p.x - (s.x + 11), p.y - (s.y + 11)) < 16) return i; } return -1; }
+function hitSlot(p) { for (let i = 0; i < G.level.slots; i++) { const s = slotPos(i); if (Math.hypot(p.x - (s.x + SLOT / 2), p.y - (s.y + SLOT / 2)) < 22) return i; } return -1; }
 cv.addEventListener('pointerdown', e => {
   const p = pt(e); cv.setPointerCapture(e.pointerId);
   if (G.screen === 'menu') { for (const b of G.menuBtns || []) if (inBox(p, b)) G.pressed = 'lv' + b.L.id; return; }
