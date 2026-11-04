@@ -549,7 +549,7 @@ function drawPanel() {
   L.items.forEach((item, i) => {
     const x = cardX(L.items.length, i), pressed = G.card === i;
     spr(A.ui, pressed ? 'card_pressed' : 'card', x, CARD_Y);
-    if (!(G.drag && G.drag.card === i && G.drag.moved)) spr(A.food, 'icon_' + item.foods.join(''), x + 11, CARD_Y + 11 + (pressed ? 1 : 0), { scale: ICON });
+    if (!(G.drag && !G.drag.fromSlot && G.drag.card === i && G.drag.moved)) spr(A.food, 'icon_' + item.foods.join(''), x + 11, CARD_Y + 11 + (pressed ? 1 : 0), { scale: ICON });
   });
 }
 function drawDrag() {
@@ -645,7 +645,8 @@ cv.addEventListener('pointerdown', e => {
   const k = hitBtn(p); if (k) { G.pressed = k; return; }
   if (inBox(p, BTN_FEED) && G.slots.length) { G.pressed = 'feed'; return; }
   const c = hitCard(p); if (c >= 0) { G.card = c; G.drag = { card: c, item: G.level.items[c], x: p.x, y: p.y, sx: p.x, sy: p.y, moved: false }; SFX.pick(); return; }
-  const s = hitSlot(p); if (s >= 0 && G.slots[s]) { G.slots.splice(s, 1); SFX.tick(); computePreview(); return; }
+  // a filled slot: pick its food up; a tap (no move) or a drop away from the plate removes it, a drop on a slot moves it there
+  const s = hitSlot(p); if (s >= 0 && G.slots[s] != null) { const idx = G.slots[s]; G.slots.splice(s, 1); G.drag = { card: idx, item: G.level.items[idx], x: p.x, y: p.y, sx: p.x, sy: p.y, moved: false, fromSlot: true }; SFX.tick(); computePreview(); return; }
   if (p.y < POND_H) { const f = hitFish(p); if (f) { G.fishDrag = { f, ox: f.x - p.x, oy: f.y - p.y }; f.held = true; SFX.pick(); } }
 });
 cv.addEventListener('pointermove', e => {
@@ -666,7 +667,7 @@ cv.addEventListener('pointerup', e => {
   if (G.drag) {
     const d = G.drag; G.drag = null; G.card = null; G.hover = -1;
     if (d.moved) { const s = hitSlot(p); if (s >= 0) { G.slots[s] = d.card; if (G.slots.length > G.level.slots) G.slots.length = G.level.slots; SFX.tick(); } }
-    else if (G.slots.length < G.level.slots) { G.slots.push(d.card); SFX.tick(); }
+    else if (!d.fromSlot && G.slots.length < G.level.slots) { G.slots.push(d.card); SFX.tick(); }
     // keep slots dense (no holes)
     G.slots = G.slots.filter(v => v != null);
     computePreview(); return;
