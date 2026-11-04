@@ -11,7 +11,7 @@ export const THEMES = {
     sheets: { creature: 'assets/out/fish', tiles: 'assets/out/tiles', props: 'assets/out/props', extra: null },
     types: ['koi', 'goldfish', 'catfish'],            // wants one / likes either / combo eater
     size: { s: { L: 32, W: 10 }, m: { L: 44, W: 13 }, l: { L: 56, W: 16 } },
-    rotate: true, spin: true, landFx: 'splash', idle: false,
+    rotate: true, spin: true, landFx: 'splash', idle: false, shimmer: true,
     speed: { koi: { min: 14, max: 20, turn: 700 }, goldfish: { min: 5, max: 8, turn: 1200 }, catfish: { min: 8, max: 12, turn: 900 } },
     intro: s => s, allFull: 'ALL FISH FULL!', hungryTip: 'TRY: FEED FISH THAT SHARE A FOOD TOGETHER, AND KEEP BAD FOOD OUT.',
     menuDemo: [['goldfish_m_swim', 60, 445, 1], ['koi_l_swim', 200, 445, -1]],
@@ -28,7 +28,7 @@ export const THEMES = {
     sheets: { creature: 'assets/cats_out/cats', tiles: 'assets/cats_out/tiles', props: 'assets/cats_out/props', extra: 'assets/cats_out/ui_extra' },
     types: ['tabby', 'chonk', 'fluffy'],
     size: { s: { L: 34, W: 26 }, m: { L: 44, W: 32 }, l: { L: 54, W: 40 } },
-    rotate: false, spin: false, landFx: 'dust', idle: true,
+    rotate: false, spin: false, landFx: 'dust', idle: true, shimmer: false,
     walkSpeed: [14, 18],
     // how long a cat stands still vs walks, in ms; restless cats never appear before level 6
     tempers: {

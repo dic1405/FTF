@@ -440,14 +440,16 @@ function draw() {
 }
 function drawPond() {
   ctx.drawImage(pondLayer, 0, 0);
-  // caustic shimmer, tiled at low alpha
-  const cf = A.env.tags.caustic, fr = cf[Math.floor(G.time / 250) % 4];
-  ctx.globalAlpha = 0.28;
-  for (let y = 8; y < POND_H - 8; y += 48) for (let x = 8; x < W - 8; x += 48) ctx.drawImage(A.env.img, fr.x, fr.y, fr.w, fr.h, x, y, 48, 48);
-  ctx.globalAlpha = 1;
+  // caustic shimmer, tiled at low alpha (water only: the yard stays still)
+  if (THEME.shimmer) {
+    const cf = A.env.tags.caustic, fr = cf[Math.floor(G.time / 250) % 4];
+    ctx.globalAlpha = 0.28;
+    for (let y = 8; y < POND_H - 8; y += 48) for (let x = 8; x < W - 8; x += 48) ctx.drawImage(A.env.img, fr.x, fr.y, fr.w, fr.h, x, y, 48, 48);
+    ctx.globalAlpha = 1;
+  }
   // ambient bubbles
   const bf = A.env.tags.ambient_bubble;
-  for (let i = 0; i < 5; i++) { const ph = ((G.time / 4000) + i * 0.2) % 1; const x = 40 + i * 48, y = 330 - ph * 280; spr(A.env, bf[Math.min(2, Math.floor(ph * 3))], x + Math.sin(ph * 9) * 2, y); }
+  if (THEME.shimmer) for (let i = 0; i < 5; i++) { const ph = ((G.time / 4000) + i * 0.2) % 1; const x = 40 + i * 48, y = 330 - ph * 280; spr(A.env, bf[Math.min(2, Math.floor(ph * 3))], x + Math.sin(ph * 9) * 2, y); }
   // fish
   const fishes = [...G.fish].sort((a, b) => (a.held - b.held) || (a.y - b.y));
   ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, POND_H); ctx.clip();
