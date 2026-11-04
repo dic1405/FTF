@@ -364,6 +364,7 @@ function update(now) {
   }
   // fish movement
   for (const f of G.fish) {
+    if (f.held) continue;
     const sp = f.full ? f.speed * 0.7 : f.speed;
     if (f.notice && f.notice.alive) {
       const ta = Math.atan2(f.notice.ey - f.y, f.notice.ex - f.x);
@@ -413,7 +414,7 @@ function drawPond() {
   const bf = A.ui.tags.ambient_bubble;
   for (let i = 0; i < 5; i++) { const ph = ((G.time / 4000) + i * 0.2) % 1; const x = 40 + i * 48, y = 330 - ph * 280; spr(A.ui, bf[Math.min(2, Math.floor(ph * 3))], x + Math.sin(ph * 9) * 2, y); }
   // fish
-  const fishes = [...G.fish].sort((a, b) => a.y - b.y);
+  const fishes = [...G.fish].sort((a, b) => (a.held - b.held) || (a.y - b.y));
   ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, POND_H); ctx.clip();
   for (const f of fishes) {
     const fr = curFrame(f);
@@ -430,6 +431,7 @@ function drawPond() {
     const m = f.L / 2 + 2, copies = [[0, 0]];
     if (f.x < m) copies.push([W + 2 * m, 0]); else if (f.x > W - m) copies.push([-(W + 2 * m), 0]);
     if (f.y < 30 + m) copies.push([0, POND_H - 30 + 2 * m]); else if (f.y > POND_H - m) copies.push([0, -(POND_H - 30 + 2 * m)]);
+    if (f.held) { ctx.save(); ctx.globalAlpha = 0.3; ctx.fillStyle = '#1E1A1A'; ctx.beginPath(); ctx.ellipse(f.x + 3, f.y + 5, f.L / 2, f.Wd / 2 + 2, f.a, 0, Math.PI * 2); ctx.fill(); ctx.restore(); oy -= 3; }
     for (const [wx, wy] of copies) spr(A.fish, fr, f.x + ox + wx, f.y + oy + wy, { cx: true, rot });
     if (f.preview && f.preview.kind === 'digest' && !G.seq) { const sf = A.ui.tags.sweat[Math.floor(G.time / 200) % 2]; spr(A.ui, sf, f.x + Math.cos(f.a) * (f.L / 2) + 4, f.y + Math.sin(f.a) * (f.L / 2) - 6); }
   }
@@ -609,6 +611,7 @@ function pt(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - 
 const inBox = (p, b) => p.x >= b.x && p.x < b.x + b.w && p.y >= b.y && p.y < b.y + b.h;
 function hitBtn(p) { for (const [k, b] of Object.entries(BTNS)) if (inBox(p, { x: b.x - 4, y: b.y - 4, w: 28, h: 28 })) return k; return null; }
 function hitCard(p) { const L = G.level; for (let i = 0; i < L.items.length; i++) if (inBox(p, { x: cardX(L.items.length, i), y: CARD_Y, w: 28, h: 28 })) return i; return -1; }
+function hitFish(p) { let best = null, bd = 1e9; for (const f of G.fish) { const d = Math.hypot(p.x - f.x, p.y - f.y); if (d < f.L / 2 + 6 && d < bd) { bd = d; best = f; } } return best; }
 function hitSlot(p) { for (let i = 0; i < G.level.slots; i++) { const s = slotPos(i); if (Math.hypot(p.x - (s.x + 11), p.y - (s.y + 11)) < 16) return i; } return -1; }
 cv.addEventListener('pointerdown', e => {
   const p = pt(e); cv.setPointerCapture(e.pointerId);
@@ -620,13 +623,16 @@ cv.addEventListener('pointerdown', e => {
   if (inBox(p, BTN_FEED) && G.slots.length) { G.pressed = 'feed'; return; }
   const c = hitCard(p); if (c >= 0) { G.card = c; G.drag = { card: c, item: G.level.items[c], x: p.x, y: p.y, sx: p.x, sy: p.y, moved: false }; SFX.pick(); return; }
   const s = hitSlot(p); if (s >= 0 && G.slots[s]) { G.slots.splice(s, 1); SFX.tick(); computePreview(); return; }
+  if (p.y < POND_H) { const f = hitFish(p); if (f) { G.fishDrag = { f, ox: f.x - p.x, oy: f.y - p.y }; f.held = true; SFX.pick(); } }
 });
 cv.addEventListener('pointermove', e => {
   const p = pt(e);
+  if (G.fishDrag) { const d = G.fishDrag; d.f.x = clamp(p.x + d.ox, 4, W - 4); d.f.y = clamp(p.y + d.oy, 34, POND_H - 6); return; }
   if (G.drag) { G.drag.x = p.x; G.drag.y = p.y; if (Math.hypot(p.x - G.drag.sx, p.y - G.drag.sy) > 4) G.drag.moved = true; const h = hitSlot(p); if (h !== G.hover) { G.hover = h; computePreview(); } }
 });
 cv.addEventListener('pointerup', e => {
   const p = pt(e), pressed = G.pressed; G.pressed = null;
+  if (G.fishDrag) { G.fishDrag.f.held = false; G.fishDrag.f.target = null; G.fishDrag = null; SFX.tick(); return; }
   if (G.screen === 'menu') { for (const b of G.menuBtns || []) if (inBox(p, b) && pressed === 'lv' + b.L.id) startLevel(b.L); return; }
   if (G.screen === 'intro') { if (pressed === 'go' && G.introBtn && inBox(p, G.introBtn)) { G.screen = 'play'; SFX.tick(); } else if (hitBtn(p) === 'menu') G.screen = 'menu'; return; }
   if (G.result) {
@@ -646,7 +652,7 @@ cv.addEventListener('pointerup', e => {
   const k = hitBtn(p);
   if (pressed && pressed === k) { if (k === 'undo') undo(); else if (k === 'hint') hint(); else if (k === 'restart') startLevel(G.level); else if (k === 'menu') G.screen = 'menu'; computePreview(); }
 });
-cv.addEventListener('pointercancel', () => { G.drag = null; G.card = null; G.pressed = null; G.hover = -1; });
+cv.addEventListener('pointercancel', () => { if (G.fishDrag) G.fishDrag.f.held = false; G.fishDrag = null; G.drag = null; G.card = null; G.pressed = null; G.hover = -1; });
 
 // ------------------------------------------------------------------ boot
 loadAll().then(() => {
