@@ -171,16 +171,16 @@ function startLevel(L) {
     const zc = i % cols, zr = Math.floor(i / cols);
     const zone = { x0: POND.x0 + zc * zw, y0: POND.y0 + zr * zh, x1: POND.x0 + (zc + 1) * zw, y1: POND.y0 + (zr + 1) * zh };
     const S = SIZE[sizeKey(f.hearts)];
-    return { id: i, data: f, type: fishType(f), sz: sizeKey(f.hearts), L: S.L, Wd: S.W, zone, x: (zone.x0 + zone.x1) / 2 + rnd(-10, 10), y: (zone.y0 + zone.y1) / 2 + rnd(-8, 8), a: rnd(0, Math.PI * 2),
+    return { id: i, data: f, type: fishType(f) + (f.digest ? '_' + sizeKey(f.hearts) + '_d' : '_' + sizeKey(f.hearts)), sz: sizeKey(f.hearts), L: S.L, Wd: S.W, zone, x: (zone.x0 + zone.x1) / 2 + rnd(-10, 10), y: (zone.y0 + zone.y1) / 2 + rnd(-8, 8), a: rnd(0, Math.PI * 2),
       target: null, speed: fishSpeed(fishType(f), sizeKey(f.hearts)), turn: SPEED[fishType(f)].turn, shown: f.fill, full: f.fill === f.hearts, anim: null, preview: null, tagDy: 0, tagDy2: 0, spin: 0, dash: { x: 0, y: 0 }, glow: 0, idle: 0 };
   });
 }
 function fishEats(f, food) { return f.both ? f.both.includes(food) : f.any.includes(food); }
 
 // ------------------------------------------------------------------ fish anim
-function play(f, tag, loop = false, speed = 1, onFrame) { f.anim = { tag: `${f.type}_${f.sz}_${tag}`, t0: G.time, loop, speed, onFrame, fired: new Set() }; }
+function play(f, tag, loop = false, speed = 1, onFrame) { f.anim = { tag: `${f.type}_${tag}`, t0: G.time, loop, speed, onFrame, fired: new Set() }; }
 function curFrame(f) {
-  const an = f.anim, def = `${f.type}_${f.sz}_${f.full ? 'swim_full' : 'swim'}`;
+  const an = f.anim, def = `${f.type}_${f.full ? 'swim_full' : 'swim'}`;
   if (!an) { f.frameIdx = -1; const fr = A.fish.tags[def]; return fr[Math.floor(G.time / fr[0].duration) % fr.length]; }
   const fr = A.fish.tags[an.tag]; if (!fr) { f.anim = null; return curFrame(f); }
   let t = (G.time - an.t0) * an.speed, i = 0;
@@ -352,7 +352,7 @@ function hint() {
 
 // ------------------------------------------------------------------ preview
 function previewSlots() {
-  if (G.drag && G.hover >= 0) { const s = [...G.slots]; s[G.hover] = G.drag.card; return s; }
+  if (G.drag && G.hover >= 0) { const s = [...G.slots]; s[Math.min(G.hover, s.length)] = G.drag.card; return s.filter(v => v != null); }
   return G.slots;
 }
 function computePreview() {

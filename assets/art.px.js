@@ -20,12 +20,13 @@ pal({
   i: "#7ED6A6", I: "#55B784", J: "#3C8F65",   // mint button
   P: "#F4A6B0", a: "#9AD7F0",        // pink cheeks, sweat drop blue
   E: "#6B5A3A", Q: "#8A7A4A",        // poop brown-green
+  A: "#5E4F6B", H: "#8A7A99", K: "#AA9BB8", U: "#D6CCE0", V: "#EFE9F3",   // plum-grey ramp: fish with a digest food
   1: "#6E9EA8", 2: "#86B2BA",        // courtyard water (greyer)
   3: "#4FA092", 4: "#6BB8A8",        // lily pond water (greener)
   5: "#3E6F84", 6: "#507F93",        // temple water (deeper)
   7: "#E8C070", 8: "#F7E3A0",        // lantern light
 })
-ramps("Oopc", "DdtTq", "SszZ", "lLj", "XxfF", "JIi", "Rr", "vyY", "hgG", "Nbb", "umM")
+ramps("Oopc", "AHKUV", "DdtTq", "SszZ", "lLj", "XxfF", "JIi", "Rr", "vyY", "hgG", "Nbb", "umM")
 
 // ================================================================ FISH
 // Every fish is drawn by one function so swim / bite / digest / celebrate frames are parameters, not grids.
@@ -119,28 +120,36 @@ function drawFish(c, type, L, Wd, o = {}) {
 
 const TYPES = ["koi", "goldfish", "catfish"]
 const FULL = { swap: { o: "p", O: "o", p: "c", c: "C" } }
+// fish with a digest food get a plum-grey body: every anim is built twice, the "_d" variant recoloured as a last step
+const DIG = { O: "A", o: "H", p: "K", c: "U" }, DIG_FULL = { o: "A", p: "H", c: "K", C: "U" }, DIG_LIGHT = { O: "H", o: "K", p: "U", c: "V" }
+const anim2 = (name, opts, fn) => {
+  anim(name, opts, fn)
+  const dname = name.replace(/^([a-z]+_[sml])_/, "$1_d_")
+  // opts.swap (the FULL palette) is applied after this recolor, so full-body anims map straight to the lighter plum ramp
+  anim(dname, opts, fn, (c) => c.recolor(opts.swap ? DIG_LIGHT : name.endsWith("digest_full") && c.frame < 5 ? DIG_FULL : DIG))
+}
 for (const type of TYPES) for (const [sz, S] of Object.entries(SIZES)) {
   const base = { w: S.cw, h: S.ch, outline: "k" }
   const id = `${type}_${sz}`
   // hungry / full swim loops
-  anim(`${id}_swim`, { ...base, frames: 6, fps: 10 }, (c) => drawFish(c, type, S.L, S.W, { phase: c.phase }))
-  anim(`${id}_swim_full`, { ...base, ...FULL, frames: 6, fps: 7 }, (c) => drawFish(c, type, S.L, S.W + 2, { phase: c.phase, eyes: "happy", amp: 0.7 }))
+  anim2(`${id}_swim`, { ...base, frames: 6, fps: 10 }, (c) => drawFish(c, type, S.L, S.W, { phase: c.phase }))
+  anim2(`${id}_swim_full`, { ...base, ...FULL, frames: 6, fps: 7 }, (c) => drawFish(c, type, S.L, S.W + 2, { phase: c.phase, eyes: "happy", amp: 0.7 }))
   // preview: head up, mouth open (2 frames)
-  anim(`${id}_preview_eat`, { ...base, frames: 2, fps: 5 }, (c) => drawFish(c, type, S.L, S.W, { phase: c.frame * 0.5, mouth: 0.6 + c.frame * 0.4 }))
+  anim2(`${id}_preview_eat`, { ...base, frames: 2, fps: 5 }, (c) => drawFish(c, type, S.L, S.W, { phase: c.frame * 0.5, mouth: 0.6 + c.frame * 0.4 }))
   // bite: anticipate, open, lunge, SNAP (frame 3 = contact), recover
-  anim(`${id}_bite`, { ...base, frames: 5, fps: 14, loop: false }, (c) => {
+  anim2(`${id}_bite`, { ...base, frames: 5, fps: 14, loop: false }, (c) => {
     const f = c.frame
     const o = [{ stretch: -1, mouth: 0.3 }, { stretch: 0, mouth: 1 }, { stretch: 1, mouth: 1, phase: 0.25 }, { stretch: 1, mouth: 0, phase: 0.5 }, { stretch: 0, mouth: 0, phase: 0.75 }][f]
     drawFish(c, type, S.L, S.W, o)
   })
   // digest: bite (2), shudder with a green tint (2), release (frame 4 = heart lost), settle
-  anim(`${id}_digest`, { ...base, frames: 6, fps: 11, loop: false }, (c) => {
+  anim2(`${id}_digest`, { ...base, frames: 6, fps: 11, loop: false }, (c) => {
     const f = c.frame
     const o = [{ mouth: 1, stretch: 1 }, { mouth: 0.3 }, { phase: 0.25, flick: 1, eyes: "x" }, { phase: 0.75, flick: -1, eyes: "x" }, { phase: 0.5, eyes: "x", amp: 1.4 }, { phase: 0 }][f]
     drawFish(c, type, S.L, S.W, o)
     if (f === 2 || f === 3) c.recolor({ o: "n", p: "n", O: "l" })
   })
-  anim(`${id}_digest_full`, { ...base, frames: 6, fps: 11, loop: false }, (c) => {
+  anim2(`${id}_digest_full`, { ...base, frames: 6, fps: 11, loop: false }, (c) => {
     const f = c.frame
     const o = [{ mouth: 1, stretch: 1 }, { mouth: 0.3 }, { phase: 0.25, flick: 1, eyes: "x" }, { phase: 0.75, flick: -1, eyes: "x" }, { phase: 0.5, eyes: "x", amp: 1.4 }, { phase: 0 }][f]
     drawFish(c, type, S.L, f < 5 ? S.W + 2 : S.W, o)
@@ -148,13 +157,13 @@ for (const type of TYPES) for (const [sz, S] of Object.entries(SIZES)) {
     if (f === 2 || f === 3) c.recolor({ o: "n", p: "n", c: "n", O: "l" })
   })
   // ignore: tail flick, turn away
-  anim(`${id}_ignore`, { ...base, frames: 3, fps: 11, loop: false }, (c) => drawFish(c, type, S.L, S.W, { phase: 0.25 + c.frame * 0.25, flick: c.frame === 1 ? 2 : 0, amp: 1.5 }))
+  anim2(`${id}_ignore`, { ...base, frames: 3, fps: 11, loop: false }, (c) => drawFish(c, type, S.L, S.W, { phase: 0.25 + c.frame * 0.25, flick: c.frame === 1 ? 2 : 0, amp: 1.5 }))
   // content wiggle (full body)
-  anim(`${id}_content`, { ...base, ...FULL, frames: 3, fps: 8, loop: false }, (c) => drawFish(c, type, S.L, S.W + 2, { phase: c.frame / 3, eyes: "happy", amp: 1.6 }))
+  anim2(`${id}_content`, { ...base, ...FULL, frames: 3, fps: 8, loop: false }, (c) => drawFish(c, type, S.L, S.W + 2, { phase: c.frame / 3, eyes: "happy", amp: 1.6 }))
   // celebrate (full body): the engine adds the 360 turn
-  anim(`${id}_celebrate`, { ...base, ...FULL, frames: 6, fps: 12, loop: false }, (c) => drawFish(c, type, S.L, S.W + 2 + (c.frame % 2), { phase: c.phase, eyes: "happy", amp: 1.8, mouth: c.frame < 2 ? 0.5 : 0 }))
+  anim2(`${id}_celebrate`, { ...base, ...FULL, frames: 6, fps: 12, loop: false }, (c) => drawFish(c, type, S.L, S.W + 2 + (c.frame % 2), { phase: c.phase, eyes: "happy", amp: 1.8, mouth: c.frame < 2 ? 0.5 : 0 }))
   // gulp at the surface (lose screen)
-  anim(`${id}_gulp`, { ...base, frames: 2, fps: 4 }, (c) => drawFish(c, type, S.L, S.W, { mouth: c.frame ? 1 : 0.4, amp: 0.3 }))
+  anim2(`${id}_gulp`, { ...base, frames: 2, fps: 4 }, (c) => drawFish(c, type, S.L, S.W, { mouth: c.frame ? 1 : 0.4, amp: 0.3 }))
 }
 
 // ================================================================ FOOD
