@@ -122,7 +122,7 @@ const save = JSON.parse(localStorage.getItem('ftf_stars') || '{}');
 
 // ------------------------------------------------------------------ layout
 const POND = { x0: 22, y0: 40, x1: 248, y1: 352 };
-const SLOT = 33, SLOT_Y = 376, SLOT_X0 = 8, SLOT_DX = 37, CARD = 40, CARD_DX = 43, CARD_Y = 426, ICON = 1.5, BTN_FEED = { x: 158, y: 375, w: 110, h: 34 };
+const SLOT = 33, SLOT_Y = 376, SLOT_X0 = 8, SLOT_DX = 37, CARD = 40, CARD_DX = 43, CARD_Y = 426, ICON = 1.5, THROW = 2.25, BTN_FEED = { x: 158, y: 375, w: 110, h: 34 };
 const BTNS = { menu: { x: 4, y: 4 }, restart: { x: 27, y: 4 }, undo: { x: 223, y: 4 }, hint: { x: 246, y: 4 } };
 function cardX(n, i) { const w = n * CARD_DX - 3; return Math.round((W - w) / 2) + i * CARD_DX; }
 function slotPos(i) { return { x: SLOT_X0 + i * SLOT_DX, y: SLOT_Y }; }
@@ -453,8 +453,8 @@ function drawPond() {
     const t = G.seq.t - fl.t0; if (t < 0) continue;
     const p = flightPos(fl, t); if (p.done && t > fl.settle - fl.t0 + 120) continue;
     const icon = 'icon_' + fl.item.foods.join('');
-    ctx.save(); ctx.globalAlpha = 0.25; ctx.fillStyle = '#1E1A1A'; ctx.beginPath(); ctx.ellipse(p.x, p.y + p.h + 3, 5, 2.5, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-    spr(A.food, icon, p.x, p.y, { cx: true, rot: p.rot, scale: ICON });
+    ctx.save(); ctx.globalAlpha = 0.25; ctx.fillStyle = '#1E1A1A'; ctx.beginPath(); ctx.ellipse(p.x, p.y + p.h + 4, 8, 4, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    spr(A.food, icon, p.x, p.y, { cx: true, rot: p.rot, scale: THROW });
   }
   // pieces
   for (const pc of G.pieces) {
