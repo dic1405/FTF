@@ -1,0 +1,148 @@
+{
+ "frames": {
+  "koi_m_celebrate_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 83
+  },
+  "koi_m_celebrate_1": {
+   "frame": {
+    "x": 54,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 83
+  },
+  "koi_m_celebrate_2": {
+   "frame": {
+    "x": 108,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 83
+  },
+  "koi_m_celebrate_3": {
+   "frame": {
+    "x": 162,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 83
+  },
+  "koi_m_celebrate_4": {
+   "frame": {
+    "x": 216,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 83
+  },
+  "koi_m_celebrate_5": {
+   "frame": {
+    "x": 270,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 83
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "koi_m_celebrate.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 324,
+   "h": 26
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "koi_m_celebrate",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   }
+  ]
+ }
+}

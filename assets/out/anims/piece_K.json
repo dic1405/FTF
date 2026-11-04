@@ -1,0 +1,64 @@
+{
+ "frames": {
+  "piece_K_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 10,
+    "h": 9
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 10,
+    "h": 9
+   },
+   "sourceSize": {
+    "w": 10,
+    "h": 9
+   },
+   "duration": 250
+  },
+  "piece_K_1": {
+   "frame": {
+    "x": 10,
+    "y": 0,
+    "w": 10,
+    "h": 9
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 10,
+    "h": 9
+   },
+   "sourceSize": {
+    "w": 10,
+    "h": 9
+   },
+   "duration": 250
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "piece_K.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 20,
+   "h": 9
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "piece_K",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ]
+ }
+}

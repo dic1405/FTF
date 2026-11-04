@@ -1,0 +1,148 @@
+{
+ "frames": {
+  "koi_s_digest_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 91
+  },
+  "koi_s_digest_1": {
+   "frame": {
+    "x": 42,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 91
+  },
+  "koi_s_digest_2": {
+   "frame": {
+    "x": 84,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 91
+  },
+  "koi_s_digest_3": {
+   "frame": {
+    "x": 126,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 91
+  },
+  "koi_s_digest_4": {
+   "frame": {
+    "x": 168,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 91
+  },
+  "koi_s_digest_5": {
+   "frame": {
+    "x": 210,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 91
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "koi_s_digest.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 252,
+   "h": 22
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "koi_s_digest",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   }
+  ]
+ }
+}

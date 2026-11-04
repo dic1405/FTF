@@ -1,0 +1,64 @@
+{
+ "frames": {
+  "piece_W_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 11,
+    "h": 8
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 11,
+    "h": 8
+   },
+   "sourceSize": {
+    "w": 11,
+    "h": 8
+   },
+   "duration": 250
+  },
+  "piece_W_1": {
+   "frame": {
+    "x": 11,
+    "y": 0,
+    "w": 11,
+    "h": 8
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 11,
+    "h": 8
+   },
+   "sourceSize": {
+    "w": 11,
+    "h": 8
+   },
+   "duration": 250
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "piece_W.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 22,
+   "h": 8
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "piece_W",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ]
+ }
+}

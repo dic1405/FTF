@@ -1,0 +1,391 @@
+{
+ "frames": [
+  {
+   "filename": "heart-pop 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 1",
+   "frame": {
+    "x": 20,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 2",
+   "frame": {
+    "x": 40,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 3",
+   "frame": {
+    "x": 60,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 4",
+   "frame": {
+    "x": 80,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 5",
+   "frame": {
+    "x": 0,
+    "y": 26,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 6",
+   "frame": {
+    "x": 20,
+    "y": 26,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 7",
+   "frame": {
+    "x": 40,
+    "y": 26,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 8",
+   "frame": {
+    "x": 60,
+    "y": 26,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 9",
+   "frame": {
+    "x": 80,
+    "y": 26,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 10",
+   "frame": {
+    "x": 0,
+    "y": 52,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 11",
+   "frame": {
+    "x": 20,
+    "y": 52,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 12",
+   "frame": {
+    "x": 40,
+    "y": 52,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 13",
+   "frame": {
+    "x": 60,
+    "y": 52,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 14",
+   "frame": {
+    "x": 80,
+    "y": 52,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  },
+  {
+   "filename": "heart-pop 15",
+   "frame": {
+    "x": 0,
+    "y": 78,
+    "w": 20,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 26
+   },
+   "duration": 33
+  }
+ ],
+ "meta": {
+  "app": "https://github.com/patch-gg/pixelfx",
+  "version": "1",
+  "image": "heart-pop.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 100,
+   "h": 104
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "heart-pop",
+    "from": 0,
+    "to": 15,
+    "direction": "forward"
+   }
+  ],
+  "pixelfx": {
+   "id": "pond/heart-pop",
+   "name": "Heart pop",
+   "fps": 30,
+   "loop": false,
+   "frames": 16,
+   "frameSize": [
+    20,
+    26
+   ],
+   "pivot": [
+    10,
+    20
+   ],
+   "columns": 5
+  }
+ }
+}

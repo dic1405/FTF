@@ -1,0 +1,148 @@
+{
+ "frames": {
+  "goldfish_m_digest_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 91
+  },
+  "goldfish_m_digest_1": {
+   "frame": {
+    "x": 54,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 91
+  },
+  "goldfish_m_digest_2": {
+   "frame": {
+    "x": 108,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 91
+  },
+  "goldfish_m_digest_3": {
+   "frame": {
+    "x": 162,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 91
+  },
+  "goldfish_m_digest_4": {
+   "frame": {
+    "x": 216,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 91
+  },
+  "goldfish_m_digest_5": {
+   "frame": {
+    "x": 270,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 91
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "goldfish_m_digest.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 324,
+   "h": 26
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "goldfish_m_digest",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   }
+  ]
+ }
+}

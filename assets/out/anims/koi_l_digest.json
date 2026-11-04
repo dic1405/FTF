@@ -1,0 +1,148 @@
+{
+ "frames": {
+  "koi_l_digest_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 66,
+    "h": 30
+   },
+   "duration": 91
+  },
+  "koi_l_digest_1": {
+   "frame": {
+    "x": 66,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 66,
+    "h": 30
+   },
+   "duration": 91
+  },
+  "koi_l_digest_2": {
+   "frame": {
+    "x": 132,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 66,
+    "h": 30
+   },
+   "duration": 91
+  },
+  "koi_l_digest_3": {
+   "frame": {
+    "x": 198,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 66,
+    "h": 30
+   },
+   "duration": 91
+  },
+  "koi_l_digest_4": {
+   "frame": {
+    "x": 264,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 66,
+    "h": 30
+   },
+   "duration": 91
+  },
+  "koi_l_digest_5": {
+   "frame": {
+    "x": 330,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 66,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 66,
+    "h": 30
+   },
+   "duration": 91
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "koi_l_digest.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 396,
+   "h": 30
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "koi_l_digest",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   }
+  ]
+ }
+}

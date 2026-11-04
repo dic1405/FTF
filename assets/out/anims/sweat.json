@@ -1,0 +1,64 @@
+{
+ "frames": {
+  "sweat_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 4,
+    "h": 6
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 4,
+    "h": 6
+   },
+   "sourceSize": {
+    "w": 4,
+    "h": 6
+   },
+   "duration": 200
+  },
+  "sweat_1": {
+   "frame": {
+    "x": 4,
+    "y": 0,
+    "w": 4,
+    "h": 6
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 4,
+    "h": 6
+   },
+   "sourceSize": {
+    "w": 4,
+    "h": 6
+   },
+   "duration": 200
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "sweat.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 8,
+   "h": 6
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "sweat",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ]
+ }
+}

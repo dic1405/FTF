@@ -1,0 +1,254 @@
+{
+ "frames": {
+  "prop_lily_a": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 13,
+    "h": 13
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 13,
+    "h": 13
+   },
+   "sourceSize": {
+    "w": 13,
+    "h": 13
+   }
+  },
+  "prop_lily_b": {
+   "frame": {
+    "x": 14,
+    "y": 0,
+    "w": 13,
+    "h": 13
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 13,
+    "h": 13
+   },
+   "sourceSize": {
+    "w": 13,
+    "h": 13
+   }
+  },
+  "prop_lily_flower": {
+   "frame": {
+    "x": 28,
+    "y": 0,
+    "w": 13,
+    "h": 13
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 13,
+    "h": 13
+   },
+   "sourceSize": {
+    "w": 13,
+    "h": 13
+   }
+  },
+  "prop_lily_big": {
+   "frame": {
+    "x": 42,
+    "y": 0,
+    "w": 17,
+    "h": 17
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 17,
+    "h": 17
+   },
+   "sourceSize": {
+    "w": 17,
+    "h": 17
+   }
+  },
+  "prop_reed": {
+   "frame": {
+    "x": 0,
+    "y": 18,
+    "w": 9,
+    "h": 14
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 9,
+    "h": 14
+   },
+   "sourceSize": {
+    "w": 9,
+    "h": 14
+   }
+  },
+  "prop_grass": {
+   "frame": {
+    "x": 10,
+    "y": 18,
+    "w": 7,
+    "h": 6
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 7,
+    "h": 6
+   },
+   "sourceSize": {
+    "w": 7,
+    "h": 6
+   }
+  },
+  "prop_rock": {
+   "frame": {
+    "x": 18,
+    "y": 18,
+    "w": 16,
+    "h": 12
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 12
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 12
+   }
+  },
+  "prop_planter": {
+   "frame": {
+    "x": 35,
+    "y": 18,
+    "w": 48,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 30
+   }
+  },
+  "prop_planter_b": {
+   "frame": {
+    "x": 0,
+    "y": 49,
+    "w": 48,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 30
+   }
+  },
+  "prop_moss_rock": {
+   "frame": {
+    "x": 49,
+    "y": 49,
+    "w": 16,
+    "h": 12
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 16,
+    "h": 12
+   },
+   "sourceSize": {
+    "w": 16,
+    "h": 12
+   }
+  },
+  "prop_spout": {
+   "frame": {
+    "x": 66,
+    "y": 49,
+    "w": 22,
+    "h": 18
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 18
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 18
+   }
+  },
+  "prop_lantern": {
+   "frame": {
+    "x": 89,
+    "y": 49,
+    "w": 14,
+    "h": 14
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 14,
+    "h": 14
+   },
+   "sourceSize": {
+    "w": 14,
+    "h": 14
+   }
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "props.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 103,
+   "h": 79
+  },
+  "scale": "1"
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "frames": {
+  "goldfish_s_content_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 125
+  },
+  "goldfish_s_content_1": {
+   "frame": {
+    "x": 42,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 125
+  },
+  "goldfish_s_content_2": {
+   "frame": {
+    "x": 84,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 42,
+    "h": 22
+   },
+   "sourceSize": {
+    "w": 42,
+    "h": 22
+   },
+   "duration": 125
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "goldfish_s_content.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 126,
+   "h": 22
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "goldfish_s_content",
+    "from": 0,
+    "to": 2,
+    "direction": "forward"
+   }
+  ]
+ }
+}

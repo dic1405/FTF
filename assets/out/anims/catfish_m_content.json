@@ -1,0 +1,85 @@
+{
+ "frames": {
+  "catfish_m_content_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 125
+  },
+  "catfish_m_content_1": {
+   "frame": {
+    "x": 54,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 125
+  },
+  "catfish_m_content_2": {
+   "frame": {
+    "x": 108,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 125
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "catfish_m_content.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 162,
+   "h": 26
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "catfish_m_content",
+    "from": 0,
+    "to": 2,
+    "direction": "forward"
+   }
+  ]
+ }
+}

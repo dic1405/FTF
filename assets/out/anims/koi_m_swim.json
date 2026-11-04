@@ -1,0 +1,148 @@
+{
+ "frames": {
+  "koi_m_swim_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 100
+  },
+  "koi_m_swim_1": {
+   "frame": {
+    "x": 54,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 100
+  },
+  "koi_m_swim_2": {
+   "frame": {
+    "x": 108,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 100
+  },
+  "koi_m_swim_3": {
+   "frame": {
+    "x": 162,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 100
+  },
+  "koi_m_swim_4": {
+   "frame": {
+    "x": 216,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 100
+  },
+  "koi_m_swim_5": {
+   "frame": {
+    "x": 270,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 54,
+    "h": 26
+   },
+   "sourceSize": {
+    "w": 54,
+    "h": 26
+   },
+   "duration": 100
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "koi_m_swim.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 324,
+   "h": 26
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "koi_m_swim",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   }
+  ]
+ }
+}
