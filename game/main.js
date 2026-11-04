@@ -625,7 +625,16 @@ function pt(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - 
 const inBox = (p, b) => p.x >= b.x && p.x < b.x + b.w && p.y >= b.y && p.y < b.y + b.h;
 function hitBtn(p) { for (const [k, b] of Object.entries(BTNS)) if (inBox(p, { x: b.x - 3, y: b.y - 3, w: 26, h: 26 })) return k; return null; }
 function hitCard(p) { const L = G.level; for (let i = 0; i < L.items.length; i++) if (inBox(p, { x: cardX(L.items.length, i), y: CARD_Y, w: CARD, h: CARD })) return i; return -1; }
-function hitFish(p) { let best = null, bd = 1e9; for (const f of G.fish) { const d = Math.hypot(p.x - f.x, p.y - f.y); if (d < f.L / 2 + 6 && d < bd) { bd = d; best = f; } } return best; }
+// hold-and-drag hit area: the body, plus the fish's hearts row and food bubbles (its tag)
+function hitFish(p) {
+  let best = null, bd = 1e9;
+  for (const f of G.fish) {
+    const d = Math.hypot(p.x - f.x, p.y - f.y), { top, bot } = tagBox(f);
+    const onTag = inBox(p, { x: top.x - 2, y: top.y - 2, w: top.w + 4, h: top.h + 4 }) || inBox(p, { x: bot.x - 2, y: bot.y - 2, w: bot.w + 4, h: bot.h + 4 });
+    if ((d < f.L / 2 + 6 || onTag) && d < bd) { bd = d; best = f; }
+  }
+  return best;
+}
 function hitSlot(p) { for (let i = 0; i < G.level.slots; i++) { const s = slotPos(i); if (Math.hypot(p.x - (s.x + SLOT / 2), p.y - (s.y + SLOT / 2)) < 22) return i; } return -1; }
 cv.addEventListener('pointerdown', e => {
   const p = pt(e); cv.setPointerCapture(e.pointerId);
