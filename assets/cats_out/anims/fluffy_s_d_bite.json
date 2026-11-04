@@ -1,0 +1,127 @@
+{
+ "frames": {
+  "fluffy_s_d_bite_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 38,
+    "h": 30
+   },
+   "duration": 71
+  },
+  "fluffy_s_d_bite_1": {
+   "frame": {
+    "x": 38,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 38,
+    "h": 30
+   },
+   "duration": 71
+  },
+  "fluffy_s_d_bite_2": {
+   "frame": {
+    "x": 76,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 38,
+    "h": 30
+   },
+   "duration": 71
+  },
+  "fluffy_s_d_bite_3": {
+   "frame": {
+    "x": 114,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 38,
+    "h": 30
+   },
+   "duration": 71
+  },
+  "fluffy_s_d_bite_4": {
+   "frame": {
+    "x": 152,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 38,
+    "h": 30
+   },
+   "duration": 71
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "fluffy_s_d_bite.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 190,
+   "h": 30
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "fluffy_s_d_bite",
+    "from": 0,
+    "to": 4,
+    "direction": "forward"
+   }
+  ]
+ }
+}

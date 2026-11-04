@@ -1,0 +1,85 @@
+{
+ "frames": {
+  "chonk_l_d_content_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 125
+  },
+  "chonk_l_d_content_1": {
+   "frame": {
+    "x": 58,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 125
+  },
+  "chonk_l_d_content_2": {
+   "frame": {
+    "x": 116,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 125
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "chonk_l_d_content.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 174,
+   "h": 44
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "chonk_l_d_content",
+    "from": 0,
+    "to": 2,
+    "direction": "forward"
+   }
+  ]
+ }
+}

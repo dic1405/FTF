@@ -1,0 +1,64 @@
+{
+ "frames": {
+  "tabby_s_d_preview_eat_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 38,
+    "h": 30
+   },
+   "duration": 200
+  },
+  "tabby_s_d_preview_eat_1": {
+   "frame": {
+    "x": 38,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 38,
+    "h": 30
+   },
+   "sourceSize": {
+    "w": 38,
+    "h": 30
+   },
+   "duration": 200
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "tabby_s_d_preview_eat.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 76,
+   "h": 30
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "tabby_s_d_preview_eat",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ]
+ }
+}

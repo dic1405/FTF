@@ -4,7 +4,12 @@ Playable web prototype of the Notion GDD (turn-based koi-pond puzzle, 10 levels)
 
 ## Play online
 
-GitHub Pages serves the repo root: enable Pages (Settings → Pages → Deploy from branch `main`, folder `/`) and open `https://dic1405.github.io/FTF/`.
+- Fish: https://dic1405.github.io/FTF/
+- Cats spin-off: https://dic1405.github.io/FTF/cats.html
+
+## Cats spin-off
+
+`cats.html` loads the same engine with `window.THEME = "cats"` (see `game/themes.js`): side-view cats in a fenced yard, same rules and levels. Cats don't differ by speed; each has a **temperament** that sets how long it stands still between short walks (lazy 4–8 s, normal 2–4 s, restless 0.3–1 s). Restless cats only appear from level 6. Art: `assets/cats.px.js` → `assets/cats_out/` (3 breeds × 3 sizes × 3 idles + walk, eat, digest and the full/digest-colour variants).
 
 ## Run
 

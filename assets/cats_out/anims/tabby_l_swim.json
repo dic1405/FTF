@@ -1,0 +1,148 @@
+{
+ "frames": {
+  "tabby_l_swim_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 100
+  },
+  "tabby_l_swim_1": {
+   "frame": {
+    "x": 58,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 100
+  },
+  "tabby_l_swim_2": {
+   "frame": {
+    "x": 116,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 100
+  },
+  "tabby_l_swim_3": {
+   "frame": {
+    "x": 174,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 100
+  },
+  "tabby_l_swim_4": {
+   "frame": {
+    "x": 232,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 100
+  },
+  "tabby_l_swim_5": {
+   "frame": {
+    "x": 290,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 58,
+    "h": 44
+   },
+   "sourceSize": {
+    "w": 58,
+    "h": 44
+   },
+   "duration": 100
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "tabby_l_swim.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 348,
+   "h": 44
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "tabby_l_swim",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   }
+  ]
+ }
+}

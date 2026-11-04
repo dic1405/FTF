@@ -1,6 +1,8 @@
 // Feed the Fishes — prototype v2. Plain canvas, logical 270x480, integer scaling, nearest neighbour.
 import { LEVELS } from './levels.js';
 import { initPond, feed, isWin, wastedSlots, solveFrom, stars as starsFor } from './logic.js';
+import { THEMES } from './themes.js';
+const THEME = THEMES[window.THEME] || THEMES.fish;
 
 const W = 270, H = 480, POND_H = 370, TS = 16;
 const cv = document.getElementById('game'), ctx = cv.getContext('2d');
@@ -29,12 +31,14 @@ async function loadAtlas(png, json) {
 }
 const A = {};
 async function loadAll() {
-  const list = { fish: 'assets/out/fish', food: 'assets/out/food', ui: 'assets/out/ui', tiles: 'assets/out/tiles', props: 'assets/out/props',
+  const list = { fish: THEME.sheets.creature, food: 'assets/out/food', ui: 'assets/out/ui', tiles: THEME.sheets.tiles, props: THEME.sheets.props,
     splash: 'assets/fx/splash', heartpop: 'assets/fx/heart-pop', fullburst: 'assets/fx/full-burst', poop: 'assets/fx/poop-puff', combo: 'assets/fx/combo-burst',
-    sink_P: 'assets/fx/sink_P', sink_A: 'assets/fx/sink_A', sink_K: 'assets/fx/sink_K', sink_W: 'assets/fx/sink_W' };
+    sink_P: 'assets/fx/sink_P', sink_A: 'assets/fx/sink_A', sink_K: 'assets/fx/sink_K', sink_W: 'assets/fx/sink_W', dust: 'assets/fx/dust-poof' };
+  if (THEME.sheets.extra) list.extra = THEME.sheets.extra;
   await Promise.all(Object.entries(list).map(async ([k, p]) => { A[k] = await loadAtlas(p + '.png', p + '.json'); }));
   // pixelfx sheets: one tag with all frames
-  for (const k of ['splash', 'heartpop', 'fullburst', 'poop', 'combo', 'sink_P', 'sink_A', 'sink_K', 'sink_W']) A[k].all = A[k].order.map(n => A[k].frames[n]);
+  for (const k of ['splash', 'heartpop', 'fullburst', 'poop', 'combo', 'sink_P', 'sink_A', 'sink_K', 'sink_W', 'dust']) A[k].all = A[k].order.map(n => A[k].frames[n]);
+  A.env = A.extra || A.ui;   // caustic / ambient tags
 }
 function spr(atlas, name, x, y, o = {}) {
   const f = typeof name === 'string' ? atlas.frames[name] : name;
@@ -107,18 +111,14 @@ const lerp = (a, b, t) => a + (b - a) * t, clamp = (x, a, b) => x < a ? a : x > 
 const easeOut = t => 1 - (1 - t) * (1 - t), easeIn = t => t * t, easeInOut = t => t < 0.5 ? 2 * t * t : 1 - 2 * (1 - t) * (1 - t);
 const rnd = (a, b) => a + Math.random() * (b - a);
 const angDiff = (a, b) => { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; };
-const fishType = f => f.both ? 'catfish' : f.any.length === 2 ? 'goldfish' : 'koi';
+const fishType = f => THEME.types[f.both ? 2 : f.any.length === 2 ? 1 : 0];
 const sizeKey = h => h === 1 ? 's' : h === 2 ? 'm' : 'l';
-const SIZE = { s: { L: 32, W: 10 }, m: { L: 44, W: 13 }, l: { L: 56, W: 16 } };
+const SIZE = THEME.size;
 // swim speed (px/s at 1x) per fish type, scaled by size (small fish dart, big fish cruise); turn = ms to settle a heading change
-const SPEED = {
-  koi:      { min: 14, max: 20, turn: 700 },   // quick, long body
-  goldfish: { min: 5,  max: 8,  turn: 1200 },  // slow, drifting fan tail
-  catfish:  { min: 8,  max: 12, turn: 900 },   // steady bottom cruiser
-};
+const SPEED = THEME.speed || {};
 const SIZE_SPEED = { s: 1.25, m: 1, l: 0.8 };
-function fishSpeed(type, sz) { const S = SPEED[type]; return rnd(S.min, S.max) * SIZE_SPEED[sz]; }
-const save = JSON.parse(localStorage.getItem('ftf_stars') || '{}');
+function fishSpeed(type, sz) { if (THEME.idle) return rnd(...THEME.walkSpeed); const S = SPEED[type]; return rnd(S.min, S.max) * SIZE_SPEED[sz]; }
+const save = JSON.parse(localStorage.getItem(THEME.saveKey) || '{}');
 
 // ------------------------------------------------------------------ layout
 const POND = { x0: 22, y0: 40, x1: 248, y1: 352 };
@@ -138,13 +138,8 @@ for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
   else t = (r * 7 + c * 3) % 11 === 0 ? 'tile_water_b' : (r * 5 + c * 2) % 13 === 0 ? 'tile_water_c' : 'tile_water_a';
   TILEMAP.push(t);
 }
-const PROPS = [['prop_planter', 2, 0], ['prop_planter_b', 222, 4], ['prop_lily_big', 30, 300], ['prop_lily_a', 48, 314], ['prop_lily_b', 226, 296], ['prop_lily_flower', 240, 312], ['prop_lily_a', 10, 180], ['prop_lily_flower', 250, 150], ['prop_rock', 120, 352], ['prop_grass', 60, 356], ['prop_grass', 200, 358], ['prop_reed', 150, 346]];
-const TIERS = [
-  { sfx: '', props: PROPS },
-  { sfx: '_c', props: [['prop_planter', 2, 0], ['prop_planter_b', 222, 4], ['prop_spout', 118, 344], ['prop_moss_rock', 40, 320], ['prop_moss_rock', 214, 300], ['prop_rock', 60, 60], ['prop_moss_rock', 200, 70], ['prop_grass', 20, 200], ['prop_grass', 244, 240], ['prop_lily_a', 236, 180]] },
-  { sfx: '_l', props: [['prop_planter', 2, 0], ['prop_planter_b', 222, 4], ['prop_lily_big', 26, 290], ['prop_lily_flower', 44, 308], ['prop_lily_a', 36, 322], ['prop_lily_big', 226, 300], ['prop_lily_flower', 244, 286], ['prop_lily_b', 232, 320], ['prop_lily_flower', 12, 150], ['prop_lily_a', 248, 120], ['prop_lily_flower', 128, 352], ['prop_lily_b', 14, 230], ['prop_grass', 100, 356], ['prop_grass', 180, 358]] },
-  { sfx: '_t', props: [['prop_lantern', 8, 2], ['prop_lantern', 250, 2], ['prop_lantern', 8, 334], ['prop_lantern', 250, 334], ['prop_lily_big', 120, 10], ['prop_lily_a', 24, 180], ['prop_lily_b', 240, 200], ['prop_rock', 40, 340], ['prop_grass', 200, 356]] },
-];
+const PROPS_UNUSED = [['prop_planter', 2, 0], ['prop_planter_b', 222, 4], ['prop_lily_big', 30, 300], ['prop_lily_a', 48, 314], ['prop_lily_b', 226, 296], ['prop_lily_flower', 240, 312], ['prop_lily_a', 10, 180], ['prop_lily_flower', 250, 150], ['prop_rock', 120, 352], ['prop_grass', 60, 356], ['prop_grass', 200, 358], ['prop_reed', 150, 346]];
+const TIERS = THEME.tiers;
 const tierFor = L => TIERS[L.id <= 3 ? 0 : L.id <= 6 ? 1 : L.id <= 8 ? 2 : 3];
 let pondLayer = null, bakedTier = null;
 function bakePond(tier = TIERS[0]) {
@@ -172,7 +167,7 @@ function startLevel(L) {
     const zone = { x0: POND.x0 + zc * zw, y0: POND.y0 + zr * zh, x1: POND.x0 + (zc + 1) * zw, y1: POND.y0 + (zr + 1) * zh };
     const S = SIZE[sizeKey(f.hearts)];
     return { id: i, data: f, type: fishType(f) + (f.digest ? '_' + sizeKey(f.hearts) + '_d' : '_' + sizeKey(f.hearts)), sz: sizeKey(f.hearts), L: S.L, Wd: S.W, zone, x: (zone.x0 + zone.x1) / 2 + rnd(-10, 10), y: (zone.y0 + zone.y1) / 2 + rnd(-8, 8), a: rnd(0, Math.PI * 2),
-      target: null, speed: fishSpeed(fishType(f), sizeKey(f.hearts)), turn: SPEED[fishType(f)].turn, shown: f.fill, full: f.fill === f.hearts, anim: null, preview: null, tagDy: 0, tagDy2: 0, spin: 0, dash: { x: 0, y: 0 }, glow: 0, idle: 0 };
+      target: null, speed: fishSpeed(fishType(f), sizeKey(f.hearts)), turn: THEME.idle ? 600 : SPEED[fishType(f)].turn, temper: THEME.idle ? THEME.tempers[THEME.temperFor(L, i)] : null, mode: 'idle', modeUntil: 0, idleTag: 'idle_a', shown: f.fill, full: f.fill === f.hearts, anim: null, preview: null, tagDy: 0, tagDy2: 0, spin: 0, dash: { x: 0, y: 0 }, glow: 0, idle: 0 };
   });
 }
 function fishEats(f, food) { return f.both ? f.both.includes(food) : f.any.includes(food); }
@@ -181,7 +176,7 @@ function fishEats(f, food) { return f.both ? f.both.includes(food) : f.any.inclu
 function play(f, tag, loop = false, speed = 1, onFrame) { f.anim = { tag: `${f.type}_${tag}`, t0: G.time, loop, speed, onFrame, fired: new Set() }; }
 function curFrame(f) {
   const an = f.anim, def = `${f.type}_${f.full ? 'swim_full' : 'swim'}`;
-  if (!an) { f.frameIdx = -1; const fr = A.fish.tags[def]; return fr[Math.floor(G.time / fr[0].duration) % fr.length]; }
+  if (!an) { f.frameIdx = -1; const tag = THEME.idle && f.mode === 'idle' ? `${f.type}_${f.idleTag}${f.full ? '_full' : ''}` : def; const fr = A.fish.tags[tag] || A.fish.tags[def]; return fr[Math.floor(G.time / fr[0].duration) % fr.length]; }
   const fr = A.fish.tags[an.tag]; if (!fr) { f.anim = null; return curFrame(f); }
   let t = (G.time - an.t0) * an.speed, i = 0;
   const total = fr.reduce((s, x) => s + x.duration, 0);
@@ -237,8 +232,8 @@ function doFeed() {
     const fl = { item, sx: s.x + SLOT / 2, sy: s.y + SLOT / 2, ex: cx + Math.cos(ang) * 34 + rnd(-6, 6), ey: cy + Math.sin(ang) * 26 + rnd(-6, 6), t0: i * 160, side: i % 2 ? 1 : -1 };
     fl.land = fl.t0 + LIFT + FLY; fl.settle = fl.land + HOP1 + HOP2;
     seq.flights.push(fl);
-    seq.events.push({ at: fl.land, fn: () => { spawnFx('splash', fl.ex, fl.ey); SFX.splash(); } });
-    seq.events.push({ at: fl.land + HOP1, fn: () => spawnFx('splash', fl.ex + 6 * Math.sign(fl.ex - fl.sx || 1), fl.ey - 6, 0.7) });
+    seq.events.push({ at: fl.land, fn: () => { spawnFx(THEME.landFx, fl.ex, fl.ey); SFX.splash(); } });
+    seq.events.push({ at: fl.land + HOP1, fn: () => spawnFx(THEME.landFx, fl.ex + 6 * Math.sign(fl.ex - fl.sx || 1), fl.ey - 6, 0.7) });
   });
   // pieces: for every serving, one piece ahead of every fish that bites it, plus a stray one
   const perFish = G.fish.map(() => []);
@@ -267,7 +262,7 @@ function doFeed() {
     }
     if (!mine.length) return;
     // pieces hop to a spot ahead of the fish; the fish reacts with a stagger by distance
-    const ahead = () => ({ x: f.x + Math.cos(f.a) * (f.L / 2 + 7), y: f.y + Math.sin(f.a) * (f.L / 2 + 7) });
+    const ahead = () => THEME.idle ? ({ x: f.x + (Math.cos(f.a) < 0 ? -1 : 1) * (f.L / 2 + 6), y: f.y + f.Wd * 0.3 }) : ({ x: f.x + Math.cos(f.a) * (f.L / 2 + 7), y: f.y + Math.sin(f.a) * (f.L / 2 + 7) });
     const start = Math.max(...mine.map(m => m.settle));
     const dist = Math.hypot(f.x - mine[0].from.x, f.y - mine[0].from.y), stagger = 40 + Math.min(1, dist / 220) * 20;
     const pcs = mine.map((m, j) => ({ food: m.food, bad: m.bad, sx: m.from.x, sy: m.from.y, ex: 0, ey: 0, t0: m.settle, dur: 420, alive: true, fishId: k, j }));
@@ -289,7 +284,7 @@ function doFeed() {
       });
       if (ev.becameFull) {
         const tc = t;
-        seq.events.push({ at: tc, fn: () => { f.full = true; f.spinT0 = G.time; f.glow = G.time; play(f, 'celebrate', false, 1); spawnFx('fullburst', f.x, f.y); SFX.chime(); } });
+        seq.events.push({ at: tc, fn: () => { f.full = true; f.spinT0 = THEME.spin ? G.time : null; f.glow = G.time; play(f, 'celebrate', false, 1); spawnFx('fullburst', f.x, f.y); SFX.chime(); } });
         t += 500;
       }
     } else if (ev.outcome === 'digest' || ev.outcome === 'digestEmpty') {
@@ -301,7 +296,7 @@ function doFeed() {
         seq.events.push({ at: tb + 180, fn: () => { f.shudder = G.time; } });
         const loses = lost > 0; if (loses) lost--;
         seq.events.push({ at: tb + 380, fn: () => {
-          spawnFx('poop', f.x - Math.cos(f.a) * (f.L / 2), f.y - Math.sin(f.a) * (f.L / 2), 1, f.a); SFX.plop();
+          if (THEME.rotate) spawnFx('poop', f.x - Math.cos(f.a) * (f.L / 2), f.y - Math.sin(f.a) * (f.L / 2), 1, f.a); else spawnFx('poop', f.x - (Math.cos(f.a) < 0 ? -1 : 1) * (f.L / 2 - 4), f.y + f.Wd * 0.35, 1, Math.cos(f.a) < 0 ? Math.PI : 0); SFX.plop();
           if (loses) { f.shown--; f.crack = G.time; }
           if (f.full && f.shown < f.data.hearts) f.full = false;
         } });
@@ -330,7 +325,7 @@ function finishSeq() {
 }
 function resolveTurn() {
   const L = G.level;
-  if (isWin(G.pond)) { G.result = { won: true, stars: starsFor(L, G.turnsUsed, G.foodUsed, true) }; save[L.id] = Math.max(save[L.id] || 0, G.result.stars); localStorage.setItem('ftf_stars', JSON.stringify(save)); G.resultT = G.time; SFX.win(); G.fish.forEach(f => { f.spinT0 = G.time + Math.random() * 200; play(f, 'celebrate'); }); }
+  if (isWin(G.pond)) { G.result = { won: true, stars: starsFor(L, G.turnsUsed, G.foodUsed, true) }; save[L.id] = Math.max(save[L.id] || 0, G.result.stars); localStorage.setItem(THEME.saveKey, JSON.stringify(save)); G.resultT = G.time; SFX.win(); G.fish.forEach(f => { f.spinT0 = THEME.spin ? G.time + Math.random() * 200 : null; play(f, 'celebrate'); }); }
   else if (G.turnsUsed >= L.turnLimit) { G.result = { won: false }; G.resultT = G.time; SFX.fail(); G.fish.forEach(f => { if (!f.full) play(f, 'gulp', true); }); }
 }
 function sinkPiece(pc) { if (!pc.alive) return; pc.alive = false; spawnFx('sink_' + pc.food, pc.ex, pc.ey); }
@@ -376,6 +371,25 @@ function update(now) {
   // fish movement
   for (const f of G.fish) {
     if (f.held) continue;
+    if (THEME.idle) {
+      // cats: stand still (one of three idles) for the temperament's idle time, then walk a short way
+      if (G.seq || f.notice || f.dashTo) { f.mode = 'idle'; f.modeUntil = G.time + 600; }
+      else if (G.time >= f.modeUntil) {
+        if (f.mode === 'idle') { f.mode = 'move'; f.modeUntil = G.time + rnd(...f.temper.move); f.a = rnd(0, Math.PI * 2); }
+        else { f.mode = 'idle'; f.modeUntil = G.time + rnd(...f.temper.idle) * (f.full ? 1.5 : 1); f.idleTag = 'idle_' + 'abc'[Math.floor(rnd(0, 3))]; f.a = Math.cos(f.a) < 0 ? Math.PI : 0; }
+      }
+      if (f.mode === 'move' && !G.seq) {
+        const sp = f.full ? f.speed * 0.7 : f.speed;
+        f.x += Math.cos(f.a) * sp * dt / 1000; f.y += Math.sin(f.a) * sp * dt / 1000;
+      }
+      if (f.dashTo && f.dashTo.alive) {
+        f.a = f.dashTo.ex < f.x ? Math.PI : 0;
+        const d = Math.hypot(f.dashTo.ex - f.x, f.dashTo.ey - f.y), want = f.L / 2;
+        if (d > want) { const k = Math.min(1, dt / 120); f.x += (f.dashTo.ex - f.x) * (1 - want / d) * k; f.y += (f.dashTo.ey - f.y) * (1 - want / d) * k; }
+      } else if (f.notice && f.notice.alive) f.a = f.notice.ex < f.x ? Math.PI : 0;
+      const m = f.L / 2 + 2; if (f.x < -m) f.x += W + 2 * m; else if (f.x > W + m) f.x -= W + 2 * m; if (f.y < 30 - m) f.y += POND_H - 30 + 2 * m; else if (f.y > POND_H + m) f.y -= POND_H - 30 + 2 * m;
+      continue;
+    }
     const sp = f.full ? f.speed * 0.7 : f.speed;
     if (f.notice && f.notice.alive) {
       const ta = Math.atan2(f.notice.ey - f.y, f.notice.ex - f.x);
@@ -418,34 +432,34 @@ function draw() {
 function drawPond() {
   ctx.drawImage(pondLayer, 0, 0);
   // caustic shimmer, tiled at low alpha
-  const cf = A.ui.tags.caustic, fr = cf[Math.floor(G.time / 250) % 4];
+  const cf = A.env.tags.caustic, fr = cf[Math.floor(G.time / 250) % 4];
   ctx.globalAlpha = 0.28;
-  for (let y = 8; y < POND_H - 8; y += 48) for (let x = 8; x < W - 8; x += 48) ctx.drawImage(A.ui.img, fr.x, fr.y, fr.w, fr.h, x, y, 48, 48);
+  for (let y = 8; y < POND_H - 8; y += 48) for (let x = 8; x < W - 8; x += 48) ctx.drawImage(A.env.img, fr.x, fr.y, fr.w, fr.h, x, y, 48, 48);
   ctx.globalAlpha = 1;
   // ambient bubbles
-  const bf = A.ui.tags.ambient_bubble;
-  for (let i = 0; i < 5; i++) { const ph = ((G.time / 4000) + i * 0.2) % 1; const x = 40 + i * 48, y = 330 - ph * 280; spr(A.ui, bf[Math.min(2, Math.floor(ph * 3))], x + Math.sin(ph * 9) * 2, y); }
+  const bf = A.env.tags.ambient_bubble;
+  for (let i = 0; i < 5; i++) { const ph = ((G.time / 4000) + i * 0.2) % 1; const x = 40 + i * 48, y = 330 - ph * 280; spr(A.env, bf[Math.min(2, Math.floor(ph * 3))], x + Math.sin(ph * 9) * 2, y); }
   // fish
   const fishes = [...G.fish].sort((a, b) => (a.held - b.held) || (a.y - b.y));
   ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, POND_H); ctx.clip();
   for (const f of fishes) {
     const fr = curFrame(f);
-    let rot = f.a;
+    let rot = THEME.rotate ? f.a : 0; const flip = !THEME.rotate && Math.cos(f.a) < 0;
     if (f.spinT0 != null) { const u = (G.time - f.spinT0) / 500; if (u < 1) rot += easeInOut(u) * Math.PI * 2; else f.spinT0 = null; }
     let ox = 0, oy = 0;
     if (f.shudder && G.time - f.shudder < 220) ox = Math.sin((G.time - f.shudder) / 18) * 2;
     // lunge: the body snaps forward on the bite frames and eases back on recover
     if (f.anim && f.frameIdx >= 0) {
       const tag = f.anim.tag, L = tag.endsWith('_bite') ? [-2, 0, 4, 5, 1] : tag.endsWith('_digest') || tag.endsWith('_digest_full') ? [4, 2, -1, 1, -2, 0] : null;
-      if (L) { const d = L[Math.min(f.frameIdx, L.length - 1)]; ox += Math.cos(f.a) * d; oy += Math.sin(f.a) * d; }
+      if (L) { const d = L[Math.min(f.frameIdx, L.length - 1)]; if (THEME.rotate) { ox += Math.cos(f.a) * d; oy += Math.sin(f.a) * d; } else ox += (flip ? -1 : 1) * d; }
     }
     if (f.glow && G.time - f.glow < 1000 && !G.reduced) { ctx.save(); ctx.globalAlpha = 0.35 * (1 - (G.time - f.glow) / 1000); ctx.fillStyle = '#FFF4E0'; ctx.beginPath(); ctx.ellipse(f.x, f.y, f.L / 2 + 4, f.L / 2 + 4, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
     const m = f.L / 2 + 2, copies = [[0, 0]];
     if (f.x < m) copies.push([W + 2 * m, 0]); else if (f.x > W - m) copies.push([-(W + 2 * m), 0]);
     if (f.y < 30 + m) copies.push([0, POND_H - 30 + 2 * m]); else if (f.y > POND_H - m) copies.push([0, -(POND_H - 30 + 2 * m)]);
     if (f.held) { ctx.save(); ctx.globalAlpha = 0.3; ctx.fillStyle = '#1E1A1A'; ctx.beginPath(); ctx.ellipse(f.x + 3, f.y + 5, f.L / 2, f.Wd / 2 + 2, f.a, 0, Math.PI * 2); ctx.fill(); ctx.restore(); oy -= 3; }
-    for (const [wx, wy] of copies) spr(A.fish, fr, f.x + ox + wx, f.y + oy + wy, { cx: true, rot });
-    if (f.preview && f.preview.kind === 'digest' && !G.seq) { const sf = A.ui.tags.sweat[Math.floor(G.time / 200) % 2]; spr(A.ui, sf, f.x + Math.cos(f.a) * (f.L / 2) + 4, f.y + Math.sin(f.a) * (f.L / 2) - 6); }
+    for (const [wx, wy] of copies) spr(A.fish, fr, f.x + ox + wx, f.y + oy + wy, { cx: true, rot, flip });
+    if (f.preview && f.preview.kind === 'digest' && !G.seq) { const sf = A.ui.tags.sweat[Math.floor(G.time / 200) % 2]; spr(A.ui, sf, f.x + (THEME.rotate ? Math.cos(f.a) * (f.L / 2) : (flip ? -1 : 1) * (f.L / 2)) + 4, f.y + (THEME.rotate ? Math.sin(f.a) * (f.L / 2) : -f.Wd / 2) - 6); }
   }
   ctx.restore();
   // flights (food icons in the air) draw above fish; their shadow below
@@ -472,7 +486,7 @@ function drawPond() {
   drawTags();
 }
 function tagBox(f) {
-  const a = f.a, hh = Math.abs(Math.sin(a)) * f.L / 2 + Math.abs(Math.cos(a)) * f.Wd / 2;
+  const a = f.a, hh = THEME.rotate ? Math.abs(Math.sin(a)) * f.L / 2 + Math.abs(Math.cos(a)) * f.Wd / 2 : f.Wd / 2;
   const d = f.data, bubbles = d.both ? 1 : d.any.length, bw = (d.both ? 30 : bubbles * 16 + (bubbles - 1) * 5) + (d.digest ? 18 : 0);
   const hw = d.hearts * 10;
   const top = { x: f.x - hw / 2, y: f.y - hh - 6 - 8 + f.tagDy, w: hw, h: 8 }, bot = { x: f.x - bw / 2, y: f.y + hh + 6 + f.tagDy2, w: bw, h: 16 };
@@ -569,10 +583,10 @@ function drawPopups() {
 function drawCardBox(y, h) { nine('panel_card', 20, y, W - 40, h); }
 function wrap(s, maxChars) { const words = s.split(' '), lines = []; let cur = ''; for (const w of words) { if ((cur + ' ' + w).trim().length > maxChars) { lines.push(cur.trim()); cur = w; } else cur += ' ' + w; } if (cur.trim()) lines.push(cur.trim()); return lines; }
 function drawIntro() {
-  const L = G.level, lines = wrap(L.intro, 32), LH = 14;
+  const L = G.level, lines = wrap(THEME.intro(L.intro), 32), LH = 14;
   const h = 70 + lines.length * LH + 44; drawCardBox(110, h);
   text(L.title, W / 2, 120, '#3B2F2F', { align: 'c', scale: 2 });
-  text(`${L.fish.length} FISH  ${L.slots} SLOTS  ${L.turnLimit} TURNS`, W / 2, 136, '#7A4E2C', { align: 'c' });
+  text(`${L.fish.length} ${THEME.key === 'cats' ? 'CATS' : 'FISH'}  ${L.slots} SLOTS  ${L.turnLimit} TURNS`, W / 2, 136, '#7A4E2C', { align: 'c' });
   text(`${'★★'} ${L.parTurns} TURNS   ${'★★★'} ${L.parFood} FOOD`, W / 2, 146, '#7A4E2C', { align: 'c' });
   lines.forEach((l, i) => text(l, W / 2, 162 + i * LH, '#3B2F2F', { align: 'c', scale: 1.5 }));
   const by = 110 + h - 44; spr(A.ui, G.pressed === 'go' ? 'btn_feed_pressed' : 'btn_feed', 80, by); text('START', W / 2, by + 12, '#1E3A2C', { align: 'c', scale: 2 });
@@ -582,7 +596,7 @@ function drawResult() {
   const r = G.result, u = clamp((G.time - G.resultT) / 400, 0, 1), L = G.level;
   const y = 120 + (1 - easeOut(u)) * 40; drawCardBox(Math.round(y), 150);
   if (r.won) {
-    text('ALL FISH FULL!', W / 2, y + 10, '#3B2F2F', { align: 'c', scale: 2 });
+    text(THEME.allFull, W / 2, y + 10, '#3B2F2F', { align: 'c', scale: 2 });
     for (let i = 0; i < 3; i++) { const on = i < r.stars && G.time - G.resultT > 500 + i * 250; spr(A.ui, on ? 'star_full' : 'star_empty', W / 2 - 22 + i * 16, y + 28); }
     const why = r.stars === 3 ? 'PERFECT: PAR TURNS AND PAR FOOD.' : r.stars === 2 ? `PAR TURNS, BUT ${G.foodUsed} FOOD (PAR ${L.parFood}). FEWER SERVINGS COULD COVER THE SAME FISH.` : `${G.turnsUsed} TURNS (PAR ${L.parTurns}). FIND FEEDS THAT FILL SEVERAL FISH AT ONCE.`;
     wrap(why, 50).forEach((l, i) => text(l, W / 2, y + 48 + i * 7, '#3B2F2F', { align: 'c' }));
@@ -591,7 +605,7 @@ function drawResult() {
     text('OUT OF TURNS', W / 2, y + 10, '#B01F38', { align: 'c', scale: 2 });
     const hungry = G.fish.filter(f => !f.full).map(f => `${f.data.name} (${f.shown}/${f.data.hearts})`).join(', ');
     wrap('STILL HUNGRY: ' + hungry + '.', 50).forEach((l, i) => text(l, W / 2, y + 30 + i * 7, '#3B2F2F', { align: 'c' }));
-    wrap('TRY: FEED FISH THAT SHARE A FOOD TOGETHER, AND KEEP BAD FOOD OUT.', 50).forEach((l, i) => text(l, W / 2, y + 56 + i * 7, '#7A4E2C', { align: 'c' }));
+    wrap(THEME.hungryTip, 50).forEach((l, i) => text(l, W / 2, y + 56 + i * 7, '#7A4E2C', { align: 'c' }));
   }
   const by = y + 112;
   G.resultBtns = [{ k: 'retry', x: 30, y: by, w: 64, h: 24, label: 'RETRY' }, { k: 'menu', x: 103, y: by, w: 64, h: 24, label: 'MENU' }];
@@ -603,8 +617,8 @@ function drawMenu() {
   ctx.drawImage(pondLayer, 0, 0);
   nine('panel_wood', 0, 370, W, 110);
   drawCardBox(30, 320);
-  text('FEED THE', W / 2, 44, '#3B2F2F', { align: 'c', scale: 3 });
-  text('FISHES', W / 2, 64, '#F28C28', { align: 'c', scale: 3 });
+  text(THEME.title[0], W / 2, 44, '#3B2F2F', { align: 'c', scale: 3 });
+  text(THEME.title[1], W / 2, 64, '#F28C28', { align: 'c', scale: 3 });
   text('A CALM TURN-BASED POND PUZZLE', W / 2, 88, '#7A4E2C', { align: 'c' });
   G.menuBtns = [];
   LEVELS.forEach((L, i) => {
@@ -614,10 +628,9 @@ function drawMenu() {
     text(`${L.id}. ${L.title}`, x + 48, y + 8, '#1E3A2C', { align: 'c' });
     for (let s = 0; s < 3; s++) spr(A.ui, s < st ? 'star_full' : 'star_empty', x + 29 + s * 14, y + 18);
   });
-  text('DRAG FOOD INTO THE SLOTS. PRESS FEED.', W / 2, 400, '#FFF4E0', { align: 'c' });
-  text('FILL EVERY HEART BEFORE THE TURNS RUN OUT.', W / 2, 410, '#FFF4E0', { align: 'c' });
-  const fr = A.fish.tags.goldfish_m_swim[Math.floor(G.time / 100) % 6]; spr(A.fish, fr, 60, 445, { cx: true, rot: Math.sin(G.time / 900) * 0.3 });
-  const fr2 = A.fish.tags.koi_l_swim[Math.floor(G.time / 100) % 6]; spr(A.fish, fr2, 200, 445, { cx: true, rot: Math.PI + Math.sin(G.time / 1100) * 0.3 });
+  text(THEME.menuHint[0], W / 2, 400, '#FFF4E0', { align: 'c' });
+  text(THEME.menuHint[1], W / 2, 410, '#FFF4E0', { align: 'c' });
+  for (const [tag, x, y, dir] of THEME.menuDemo) { const fr = A.fish.tags[tag]; const f = fr[Math.floor(G.time / fr[0].duration) % fr.length]; spr(A.fish, f, x, y, { cx: true, rot: THEME.rotate ? (dir < 0 ? Math.PI : 0) + Math.sin(G.time / 900) * 0.3 : 0, flip: !THEME.rotate && dir < 0 }); }
 }
 
 // ------------------------------------------------------------------ input

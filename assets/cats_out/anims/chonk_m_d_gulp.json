@@ -1,0 +1,64 @@
+{
+ "frames": {
+  "chonk_m_d_gulp_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 250
+  },
+  "chonk_m_d_gulp_1": {
+   "frame": {
+    "x": 48,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 250
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "chonk_m_d_gulp.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 96,
+   "h": 36
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "chonk_m_d_gulp",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ]
+ }
+}

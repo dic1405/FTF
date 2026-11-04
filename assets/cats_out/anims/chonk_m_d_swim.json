@@ -1,0 +1,148 @@
+{
+ "frames": {
+  "chonk_m_d_swim_0": {
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 100
+  },
+  "chonk_m_d_swim_1": {
+   "frame": {
+    "x": 48,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 100
+  },
+  "chonk_m_d_swim_2": {
+   "frame": {
+    "x": 96,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 100
+  },
+  "chonk_m_d_swim_3": {
+   "frame": {
+    "x": 144,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 100
+  },
+  "chonk_m_d_swim_4": {
+   "frame": {
+    "x": 192,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 100
+  },
+  "chonk_m_d_swim_5": {
+   "frame": {
+    "x": 240,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 48,
+    "h": 36
+   },
+   "sourceSize": {
+    "w": 48,
+    "h": 36
+   },
+   "duration": 100
+  }
+ },
+ "meta": {
+  "app": "pxl",
+  "image": "chonk_m_d_swim.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 288,
+   "h": 36
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "chonk_m_d_swim",
+    "from": 0,
+    "to": 5,
+    "direction": "forward"
+   }
+  ]
+ }
+}
