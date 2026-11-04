@@ -11,7 +11,9 @@ ctx.imageSmoothingEnabled = false;
 const BK = 2;
 let scale = 1;   // css px per logical px
 function fit() {
-  scale = Math.max(1, Math.floor(Math.min(innerWidth / W, innerHeight / H)));
+  // fill the screen: whole-number scale on big screens (crisp pixels), fractional on phones so the game fills the viewport
+  const raw = Math.min(innerWidth / W, innerHeight / H);
+  scale = raw >= 2 ? Math.floor(raw) : raw;
   cv.style.width = W * scale + 'px'; cv.style.height = H * scale + 'px';
 }
 addEventListener('resize', fit); fit();
